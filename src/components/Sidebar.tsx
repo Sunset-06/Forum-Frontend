@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
+import { Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import {
-  IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
-  IconUser,
+  IconHome,
+  IconCat,
   IconSettings,
   IconLogout,
   IconSwitchHorizontal,
+  IconCategory2,
+  IconBread,
 } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
 
 interface NavbarLinkProps {
-  icon: typeof IconHome2;
+  icon: typeof IconHome;
   label: string;
   active?: boolean;
   onClick?(): void;
@@ -31,16 +29,14 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: 'Home' },
-  { icon: IconGauge, label: 'Dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: IconCalendarStats, label: 'Releases' },
-  { icon: IconUser, label: 'Account' },
-  { icon: IconFingerprint, label: 'Security' },
+  { icon: IconBread, label: 'Saved' },
+  { icon: IconCategory2, label: 'Categories' },
+  { icon: IconHome, label: 'Home' },
+  { icon: IconCat, label: 'Profile' },
   { icon: IconSettings, label: 'Settings' },
 ];
 
-export default function NavbarMinimalColored() {
+export default function Sidebar() {
   const [active, setActive] = useState(2);
 
   const links = mockdata.map((link, index) => (
@@ -54,9 +50,6 @@ export default function NavbarMinimalColored() {
 
   return (
     <nav className={classes.navbar}>
-      <Center>
-        <img />
-      </Center>
 
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>

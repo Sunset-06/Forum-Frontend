@@ -1,48 +1,24 @@
-import { Anchor, Group, ActionIcon, rem } from '@mantine/core';
+import { Container, Group, ActionIcon, rem } from '@mantine/core';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
-import classes from './FooterCentered.module.css';
+import classes from './Footer.module.css';
 
-const links = [
-  { link: '#', label: 'Contact' },
-  { link: '#', label: 'Privacy' },
-  { link: '#', label: 'Blog' },
-  { link: '#', label: 'Store' },
-  { link: '#', label: 'Careers' },
-];
-
-export default function FooterCentered() {
-  const items = links.map((link) => (
-    <Anchor
-      c="dimmed"
-      key={link.label}
-      href={link.link}
-      lh={1}
-      onClick={(event) => event.preventDefault()}
-      size="sm"
-    >
-      {link.label}
-    </Anchor>
-  ));
-
+export default function Footer() {
   return (
     <div className={classes.footer}>
-      <div className={classes.inner}>
-        <img />
-
-        <Group className={classes.links}>{items}</Group>
-
-        <Group gap="xs" justify="flex-end" wrap="nowrap">
-          <ActionIcon size="lg" variant="default" radius="xl">
+      <Container className={classes.inner}>
+        <p>Created by Nilay</p>
+        <Group gap={0} className={classes.links} justify="flex-end" wrap="nowrap">
+          <ActionIcon size="lg" color="gray" variant="subtle">
             <IconBrandTwitter style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
+          <ActionIcon size="lg" color="gray" variant="subtle">
             <IconBrandYoutube style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
+          <ActionIcon size="lg" color="gray" variant="subtle">
             <IconBrandInstagram style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
           </ActionIcon>
         </Group>
-      </div>
+      </Container>
     </div>
   );
 }

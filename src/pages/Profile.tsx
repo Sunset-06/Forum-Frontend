@@ -1,8 +1,8 @@
-export default  function Profile(): JSX.Element{
+export default function Profile(){
 
     return(
         <>
-            <div>Hello</div>
+            
         </>
     );
 }
