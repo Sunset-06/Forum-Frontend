@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
+import { useState, useEffect } from 'react';
+import { Tooltip, Stack, rem } from '@mantine/core';
+import { Link, useLocation } from 'react-router-dom';
 import {
   IconHome,
   IconCat,
-  IconSettings,
   IconLogout,
-  IconSwitchHorizontal,
   IconCategory2,
   IconBread,
 } from '@tabler/icons-react';
@@ -14,30 +13,37 @@ import classes from './Sidebar.module.css';
 interface NavbarLinkProps {
   icon: typeof IconHome;
   label: string;
+  to: string;
   active?: boolean;
   onClick?(): void;
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, to, active, onClick }: NavbarLinkProps) {
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-      <UnstyledButton onClick={onClick} className={classes.link} data-active={active || undefined}>
+      <Link to={to} className={classes.link} onClick={onClick} data-active={active || undefined}>
         <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-      </UnstyledButton>
+      </Link>
     </Tooltip>
   );
 }
 
 const mockdata = [
-  { icon: IconBread, label: 'Saved' },
-  { icon: IconCategory2, label: 'Categories' },
-  { icon: IconHome, label: 'Home' },
-  { icon: IconCat, label: 'Profile' },
-  { icon: IconSettings, label: 'Settings' },
+  { icon: IconBread, label: 'Saved', to: '/saved' },
+  { icon: IconCategory2, label: 'Categories', to: '/cats' },
+  { icon: IconHome, label: 'Home', to: '/' },
+  { icon: IconCat, label: 'Profile', to: '/profile' },
 ];
 
 export default function Sidebar() {
+  const location = useLocation();
   const [active, setActive] = useState(2);
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const activeIndex = mockdata.findIndex(link => link.to === currentPath);
+    setActive(activeIndex);
+  }, [location]);
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -50,16 +56,13 @@ export default function Sidebar() {
 
   return (
     <nav className={classes.navbar}>
-
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>
           {links}
         </Stack>
       </div>
-
       <Stack justify="center" gap={0}>
-        <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
-        <NavbarLink icon={IconLogout} label="Logout" />
+        <NavbarLink icon={IconLogout} label="Logout" to="/signin" active={location.pathname === '/signin'} />
       </Stack>
     </nav>
   );

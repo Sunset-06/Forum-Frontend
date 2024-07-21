@@ -5,6 +5,6 @@ import { MantineProvider } from '@mantine/core';
 
 export default function App() {
   return( 
-    <MantineProvider>{<Router></Router>}</MantineProvider>
+    <MantineProvider defaultColorScheme="dark">{<Router></Router>}</MantineProvider>
   )
 }

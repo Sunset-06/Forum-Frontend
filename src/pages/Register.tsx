@@ -20,7 +20,7 @@ export default function Register() {
         </Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           Already have an Account?{' '}
-          <Anchor size="sm" component="button">
+          <Anchor size="sm" component="a" href="/signin">
             Sign In
           </Anchor>
         </Text>
