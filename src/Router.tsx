@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Categories from './pages/Categories';
 import Saved from './pages/Saved';
+import ThreadPage from './pages/Thread';
 
 const Layout = () => (
   <div style={{ display: 'flex' }}>
@@ -30,6 +31,7 @@ const Router = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/cats" element={<Categories />} />
           <Route path="/saved" element={<Saved />} />
+          <Route path="/cats/*" element={<ThreadPage />} />
         </Route>
       </Routes>
       <Footer />

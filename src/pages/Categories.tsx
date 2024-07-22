@@ -19,7 +19,7 @@ const cards = cats.map((cat) => (
     <Card
         key={cat.title}
         component="a"
-        href={`/cats/${cat.title}`}
+        href={`/cats/${cat.title.toLowerCase().replace(/\s+/g, '-')}`}
         className={classes.card}
         style={{backgroundImage: `url(${cat.image})`}}
     >
@@ -33,7 +33,7 @@ const cards = cats.map((cat) => (
 export default function Categories() {
     return (
         <div style={{ marginBottom: "3em" }}>
-            <h1 style={{ marginLeft: "8rem" }}>Popular Categories</h1>
+            <h1 style={{ marginLeft: "6rem" }}>Popular Categories</h1>
             <Flex gap={"xl"} justify={"center"} direction={"row"} wrap={"wrap"}>
                 {cards}
             </Flex>
