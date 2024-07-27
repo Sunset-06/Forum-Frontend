@@ -8,12 +8,13 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Categories from './pages/Categories';
 import Saved from './pages/Saved';
-import ThreadPage from './pages/Thread';
+import CategoryPage from './pages/Category';
+import Thread from './pages/Thread';
 
 const Layout = () => (
   <div style={{ display: 'flex' }}>
     <Sidebar />
-    <div style={{ flexGrow: 1 }}>
+    <div style={{ flexGrow: 1, marginLeft: "80px", marginTop: "56px" }}>
       <Outlet />
     </div>
   </div>
@@ -31,7 +32,8 @@ const Router = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/cats" element={<Categories />} />
           <Route path="/saved" element={<Saved />} />
-          <Route path="/cats/*" element={<ThreadPage />} />
+          <Route path="/cats/*" element={<CategoryPage />} />
+          <Route path="/thread/*" element={<Thread />} />
         </Route>
       </Routes>
       <Footer />

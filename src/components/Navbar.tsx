@@ -17,7 +17,7 @@ export default function Navbar() {
             data={['Roland Cattos', 'Whiskas', 'Owners', 'Territory Updates', 'Fish Market', 'Metal Gear Solid 2: Paws of Liberty']}
             visibleFrom="xs"
           />
-          <Button variant='filled' component='a' href='/auth' >Sign In</Button>
+          <Button variant='filled' component='a' href='/signin' >Sign In</Button>
         </Group>
       </div>
     </header>

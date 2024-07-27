@@ -16,7 +16,7 @@ export default function Register() {
     return (
       <Container size={420} my={40}>
         <Title ta="center" className={classes.title}>
-          Register!
+          Register
         </Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
           Already have an Account?{' '}

@@ -1,5 +1,5 @@
 .navbar {
-  position: sticky;
+  position: fixed;
   top: rem(56px);
   width: rem(80px);
   height: calc(100vh - rem(56px));
@@ -25,6 +25,7 @@
 
   &:hover {
     background-color: var(--mantine-color-teal-7);
+    color: var(--mantine-color-white);
   }
 
   &[data-active] {
