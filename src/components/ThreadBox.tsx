@@ -3,10 +3,10 @@ import { Avatar, Container, Divider, Flex, Text, Title } from "@mantine/core";
 
 export default function ThreadBox() {
   return (
-    <Container fluid style={{backgroundColor: "black", margin: "2em", borderRadius: "1em", padding: "1em"}}>
+    <Container fluid bg="black" m="2em" p="1em" style={{borderRadius: "1em"}}>
         <Flex gap="xl" direction="row" align="center" justify="space-between">
 
-            <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href="/userid"/>
+            <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href="/profile/username"/>
             <Flex direction="column">
                 <Text variant="dimmed" component="a" href="/userid">Nickname</Text>
                 <Text variant="dimmed">Timestamp</Text>

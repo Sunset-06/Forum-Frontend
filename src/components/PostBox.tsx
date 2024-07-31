@@ -3,10 +3,10 @@ import {Avatar, Button, Container, Divider, Flex, Grid, Text} from "@mantine/cor
 
 export default function PostBox() {
   return (
-    <Container fluid mx="2em" mb="1em" style={{backgroundColor: "black", borderRadius: "1em", padding: "1em"}}>
+    <Container fluid mx="2em" mb="1em" bg="black" p="1em" style={{borderRadius: "1em"}}>
         <Grid align="center" justify="space-between">
             <Grid.Col span={1}>
-              <Avatar color="lime" variant="light" radius="lg" size="xl" component="a" href="/userid"/>
+              <Avatar color="lime" variant="light" radius="lg" size="xl" component="a" href="/profile/username"/>
             </Grid.Col>
             <Grid.Col span={1}>
               <Text variant="dimmed" component="a" href="/userid">Nickname</Text>

@@ -32,7 +32,7 @@ const mockdata = [
   { icon: IconBread, label: 'Saved', to: '/saved' },
   { icon: IconCategory2, label: 'Categories', to: '/cats' },
   { icon: IconHome, label: 'Home', to: '/' },
-  { icon: IconCat, label: 'Profile', to: '/profile' },
+  { icon: IconCat, label: 'Profile', to: '/profile/username' },
 ];
 
 export default function Sidebar() {

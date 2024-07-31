@@ -1,4 +1,4 @@
-import { Button, Autocomplete, Group, rem } from '@mantine/core';
+import { Button, Autocomplete, Group, Text, rem } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 
@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <header className={classes.header}>
       <div className={classes.inner}> 
-          <img src="../assets/react.svg" />
+          <Text>Forumeong</Text>
 
         <Group>
           <Autocomplete

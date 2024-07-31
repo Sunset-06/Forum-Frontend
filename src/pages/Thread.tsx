@@ -1,6 +1,6 @@
 import { Container, Title, Text, Flex, Button, Avatar, Divider} from "@mantine/core"
 import PostBox from "../components/PostBox";
-import { IconBookmark, IconBookmarkEdit, IconBookmarkFilled, IconBookmarkOff, IconBookmarkPlus, IconBookmarks, IconBookmarksFilled } from "@tabler/icons-react";
+import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 
 const saveicon=<IconBookmark/>
 const savedicon=<IconBookmarkFilled />
@@ -10,10 +10,10 @@ export default function Thread() {
         <>
             <Container fluid mx="2em" mb="1em" mt="2em" style={{backgroundColor: "black", borderRadius: "1em", padding: "1em"}}>
                 <Flex gap="xl" direction="row" align="center" justify="space-between" mb="1rem">
-                    <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href="/userid"/>
+                    <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href="/profile/username"/>
                     <Flex direction="column">
-                        <Text c="dimmed" component="a" href="/userid">Nickname</Text>
-                        <Text c="dimmed">Timestamp</Text>
+                        <Text component="a" href="/userid">Nickname</Text>
+                        <Text>Timestamp</Text>
                     </Flex>
   
                     <Divider orientation="vertical" size="md" />
