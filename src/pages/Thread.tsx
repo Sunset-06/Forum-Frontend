@@ -1,18 +1,25 @@
+import { useState } from "react";
 import { Container, Title, Text, Flex, Button, Avatar, Divider} from "@mantine/core"
 import PostBox from "../components/PostBox";
-import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
+import { IconBookmark, IconBookmarkFilled, IconPlus } from "@tabler/icons-react";
 
 const saveicon=<IconBookmark/>
 const savedicon=<IconBookmarkFilled />
 
+
 export default function Thread() {
+    const [saved, setSaved]= useState(true);
+
+    function handleSaving() : void{
+        setSaved(!saved);
+    }
     return(
         <>
             <Container fluid mx="2em" mb="1em" mt="2em" style={{backgroundColor: "black", borderRadius: "1em", padding: "1em"}}>
                 <Flex gap="xl" direction="row" align="center" justify="space-between" mb="1rem">
                     <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href="/profile/username"/>
                     <Flex direction="column">
-                        <Text component="a" href="/userid">Nickname</Text>
+                        <Text component="a" href="/profile/username">Nickname</Text>
                         <Text>Timestamp</Text>
                     </Flex>
   
@@ -32,8 +39,8 @@ export default function Thread() {
 
             <Container fluid mb="5em">
                 <Flex direction="row" justify="flex-end" mr="2em">
-                    <Button variant="light" color="teal" mx="1em" leftSection={saveicon}>Save</Button>
-                    <Button variant="filled" color="teal">Add Post</Button>
+                    <Button variant="light" color="teal" mx="1em" leftSection={saved? savedicon : saveicon} onClick={handleSaving}>{saved ? "Saved!" : "Save"}</Button>
+                    <Button variant="filled" color="teal" leftSection={<IconPlus />}>Add Post</Button>
                 </Flex>
             </Container>
 

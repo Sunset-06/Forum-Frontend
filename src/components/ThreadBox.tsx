@@ -8,7 +8,7 @@ export default function ThreadBox() {
 
             <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href="/profile/username"/>
             <Flex direction="column">
-                <Text variant="dimmed" component="a" href="/userid">Nickname</Text>
+                <Text variant="dimmed" component="a" href="/profile/username">Nickname</Text>
                 <Text variant="dimmed">Timestamp</Text>
             </Flex>
   
