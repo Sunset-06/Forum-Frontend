@@ -11,7 +11,7 @@ function catTitle(url: string) : string {
 export default function CategoryPage(){
     return(
         <>
-        <Title m="1em" top="0"> Category: {catTitle(location.href)}</Title>
+        <Title mx="2em" my="2em" top="0"> Category: {catTitle(location.href)}</Title>
         <ThreadBox />
         <ThreadBox />
         <ThreadBox />

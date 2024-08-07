@@ -11,6 +11,7 @@ import Saved from './pages/Saved';
 import CategoryPage from './pages/Category';
 import Thread from './pages/Thread';
 
+
 const Layout = () => (
   <div style={{ display: 'flex' }}>
     <Sidebar />

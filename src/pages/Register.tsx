@@ -29,9 +29,9 @@ export default function Register() {
           <TextInput label="Email" placeholder="you@meowmeow.com" required />
           <PasswordInput label="Password" placeholder="Your password" required mt="md" />
           <Group justify="space-between" mt="lg">
-            <Checkbox label="Remember me" />
+            <Checkbox label="Remember me" color="var(--mantine-color-teal-filled)" />
           </Group>
-          <Button fullWidth mt="xl">
+          <Button fullWidth mt="xl" color="var(--mantine-color-teal-filled)">
             Register
           </Button>
         </Paper>

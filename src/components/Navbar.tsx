@@ -1,8 +1,15 @@
-import { Button, Autocomplete, Group, Text, rem } from '@mantine/core';
+import { useState } from 'react';
+import { Button, Autocomplete, Group, Text, rem, Avatar } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import classes from './Navbar.module.css';
 
 export default function Navbar() {
+  const [auth, setAuth] = useState(false);
+  const user = {
+    id: 'user123',
+    name: 'John Doe',
+    avatarUrl: 'localhost:5173/src/assets/cats-temp.jpg',
+  };
 
   return (
     <header className={classes.header}>
@@ -17,7 +24,28 @@ export default function Navbar() {
             data={['Roland Cattos', 'Whiskas', 'Owners', 'Territory Updates', 'Fish Market', 'Metal Gear Solid 2: Paws of Liberty']}
             visibleFrom="xs"
           />
-          <Button variant='filled' component='a' href='/signin' >Sign In</Button>
+          
+          {auth ? (
+            <Avatar
+              src={user.avatarUrl}
+              alt={user.name}
+              component="a"
+              href={`/profile/${user.id}`}
+              radius="md"
+              size={rem(32)}
+              className={classes.avatar}
+            />
+          ) : (
+            <Button
+              variant="filled"
+              component="a"
+              /* href="/signin" */
+              onClick={() => setAuth(true)}
+            >
+              Sign In
+            </Button>
+          )}
+
         </Group>
       </div>
     </header>

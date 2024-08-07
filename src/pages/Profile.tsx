@@ -1,11 +1,12 @@
 import { Container, Title, Text, Image, Flex, Badge} from "@mantine/core";;
+import placeholderImage from '../assets/cats-fashion.jpg'
 
 export default function Profile() {
   return (
     <>
       <Container fluid bg="gray" m="4em" p="3em" style={{ borderRadius: "1em" }}>
       <Flex direction={{ base: 'column', sm: 'row' }} m="2em" gap="lg" align="center">
-        <Image m="1em" h={275} w={275} src="src/assets/cats-fashion.jpg" fallbackSrc="src/assets/fallback.jpg"/>
+        <Image m="1em" h={275} w={275} src={placeholderImage} fallbackSrc="" fit="cover"/>
         <Flex direction="column" justify="center">
           <Title c="white">Name</Title>
           <Text c="gray" mb="0.5em">username</Text>
