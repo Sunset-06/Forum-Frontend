@@ -1,4 +1,4 @@
-import { Container, Title, Text, Image, Flex, Badge} from "@mantine/core";;
+import { Container, Title, Text, Image, Flex, Badge, Button} from "@mantine/core";;
 import placeholderImage from '../assets/cats-fashion.jpg'
 
 export default function Profile() {

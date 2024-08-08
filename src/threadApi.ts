@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-interface Thread {
+export interface Thread {
     id: string;
     title: string;
     content: string;
@@ -9,9 +9,10 @@ interface Thread {
     updatedAt?: string; 
     pfpUrl?: string; 
     posts: number;
+    cat: string;
   }
   
-interface NewThread {
+export interface NewThread {
     title: string;
     content: string;
     authorId: string; 
@@ -19,9 +20,10 @@ interface NewThread {
     updatedAt?: string; 
     pfpUrl?: string; 
     posts: number;
+    cat: string;
 }
   
-interface UpdateThread {
+export interface UpdateThread {
     title: string;
     content: string;
     authorId: string; 
@@ -38,7 +40,6 @@ const threadApi: AxiosInstance = axios.create({
   },
 });
 
-// Function to create a new post
 export const createThread = async (postData: NewThread): Promise<Thread> => {
   try {
     const response = await threadApi.post<Thread>('/', postData);
@@ -49,7 +50,6 @@ export const createThread = async (postData: NewThread): Promise<Thread> => {
   }
 };
 
-// Function to get a post by ID
 export const getThreadById = async (id: string): Promise<Thread> => {
   try {
     const response = await threadApi.get<Thread>(`/${id}`);
@@ -60,7 +60,6 @@ export const getThreadById = async (id: string): Promise<Thread> => {
   }
 };
 
-// Function to get all posts
 export const getAllThreads = async (): Promise<Thread[]> => {
   try {
     const response = await threadApi.get<Thread[]>('/');
@@ -71,7 +70,6 @@ export const getAllThreads = async (): Promise<Thread[]> => {
   }
 };
 
-// Function to update a post by ID
 export const updateThread = async (id: string, postData: UpdateThread): Promise<Thread> => {
   try {
     const response = await threadApi.put<Thread>(`/${id}`, postData);
@@ -82,7 +80,6 @@ export const updateThread = async (id: string, postData: UpdateThread): Promise<
   }
 };
 
-// Function to delete a post by ID
 export const deleteThread = async (id: string): Promise<string> => {
   try {
     const response = await threadApi.delete<string>(`/${id}`);

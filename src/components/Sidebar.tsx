@@ -7,6 +7,7 @@ import {
   IconLogout,
   IconCategory2,
   IconBread,
+  IconPlus,
 } from '@tabler/icons-react';
 import classes from './Sidebar.module.css';
 
@@ -62,7 +63,7 @@ export default function Sidebar() {
         </Stack>
       </div>
       <Stack justify="center" gap={0}>
-        <NavbarLink icon={IconLogout} label="Logout" to="/signin" active={location.pathname === '/signin'} />
+        <NavbarLink icon={IconPlus} label="Create a Thread" to="/create" active={location.pathname === '/create'} />
       </Stack>
     </nav>
   );

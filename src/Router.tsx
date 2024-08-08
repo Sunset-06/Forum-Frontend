@@ -10,7 +10,7 @@ import Categories from './pages/Categories';
 import Saved from './pages/Saved';
 import CategoryPage from './pages/Category';
 import Thread from './pages/Thread';
-
+import AddThread from './pages/AddThread'
 
 const Layout = () => (
   <div style={{ display: 'flex' }}>
@@ -35,6 +35,7 @@ const Router = () => {
           <Route path="/saved" element={<Saved />} />
           <Route path="/cats/*" element={<CategoryPage />} />
           <Route path="/thread/*" element={<Thread />} />
+          <Route path="/create" element={<AddThread />} />
         </Route>
       </Routes>
       <Footer />
