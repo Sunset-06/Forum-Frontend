@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   IconHome,
   IconCat,
-  IconLogout,
   IconCategory2,
   IconBread,
   IconPlus,
