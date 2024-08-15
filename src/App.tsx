@@ -1,4 +1,4 @@
-import Router from "./Router";
+import Router from "./Router.tsx";
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 

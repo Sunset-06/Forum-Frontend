@@ -1,18 +1,30 @@
 import { Flex, Card, Overlay } from '@mantine/core';
 import classes from "./Animations.module.css"
+import catvg from "../assets/cats-games.jpg"
+import catfs from "../assets/cats-fashion.jpg"
+import catbk from "../assets/cats-books.jpg"
+import catfd from "../assets/cats-food.jpeg"
+import catmv from "../assets/cats-movies.jpg"
+import caton from "../assets/cats-owners.jpg"
+import cattr from "../assets/cats-travel.jpeg"
+import catmu from "../assets/cats-music.jpg"
+import catvh from "../assets/cats-vehicles.jpeg"
+import catsp from "../assets/cats-sports.jpg"
+import catmt from "../assets/cats-motorsport.jpg"
+
 
 const cats = [
-    { title: "Video Games", image: "../src/assets/cats-games.jpg" },
-    { title: "Fashion", image: "../src/assets/cats-fashion.jpg" },
-    { title: "Books", image: "../src/assets/cats-books.jpg" },
-    { title: "Food", image: "../src/assets/cats-food.jpeg" },
-    { title: "Movies", image: "../src/assets/cats-movies.jpg" },
-    { title: "Owners", image: "../src/assets/cats-owners.jpg" },
-    { title: "Travel", image: "../src/assets/cats-travel.jpeg" },
-    { title: "Music", image: "../src/assets/cats-music.jpg" },
-    { title: "Vehicles", image: "../src/assets/cats-vehicles.jpeg" },
-    { title: "Sports", image: "../src/assets/cats-sports.jpg" },
-    { title: "Motorsports", image: "../src/assets/cats-motorsport.jpg" }
+    { title: "Video Games", image: catvg },
+    { title: "Fashion", image: catfs },
+    { title: "Books", image: catbk },
+    { title: "Food", image: catfd },
+    { title: "Movies", image: catmv },
+    { title: "Owners", image: caton },
+    { title: "Travel", image: cattr },
+    { title: "Music", image: catmu },
+    { title: "Vehicles", image: catvh },
+    { title: "Sports", image: catsp },
+    { title: "Motorsports", image: catmt }
 ];
 
 const cards = cats.map((cat) => (

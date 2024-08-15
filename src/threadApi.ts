@@ -34,7 +34,7 @@ export interface UpdateThread {
 }
 
 const threadApi: AxiosInstance = axios.create({
-  baseURL: 'https://localhost:8080/api/threads',
+  baseURL: 'http://localhost:8080/api/threads',
   headers: {
     'Content-Type': 'application/json',
   },

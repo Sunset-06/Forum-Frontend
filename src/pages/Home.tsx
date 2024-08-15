@@ -4,7 +4,7 @@ export default function HomePage(){
 
     return(
         <>
-          <Title>Coming Soon</Title>  
+          <Title m="3em">Coming Soon</Title>  
         </>
     );
 }

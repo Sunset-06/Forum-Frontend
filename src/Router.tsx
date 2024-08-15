@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import Footer from './components/Footer';
-import HomePage from './pages/Home';
-import SignIn from './pages/SignIn';
-import Register from './pages/Register';
-import Profile from './pages/Profile';
-import Categories from './pages/Categories';
-import Saved from './pages/Saved';
-import CategoryPage from './pages/Category';
-import Thread from './pages/Thread';
-import AddThread from './pages/AddThread'
+import Navbar from './components/Navbar.tsx';
+import Sidebar from './components/Sidebar.tsx';
+import Footer from './components/Footer.tsx';
+import HomePage from './pages/Home.tsx';
+import SignIn from './pages/SignIn.tsx';
+import Register from './pages/Register.tsx';
+import Profile from './pages/Profile.tsx';
+import Categories from './pages/Categories.tsx';
+import Saved from './pages/Saved.tsx';
+import CategoryPage from './pages/Category.tsx';
+import Thread from './pages/Thread.tsx';
+import AddThread from './pages/AddThread.tsx'
 
 const Layout = () => (
   <div style={{ display: 'flex' }}>

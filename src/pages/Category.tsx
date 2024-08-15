@@ -1,9 +1,9 @@
 // src/pages/CategoryPage.tsx
 
 import { useState, useEffect } from 'react';
-import ThreadBox from '../components/ThreadBox';
+import ThreadBox from '../components/ThreadBox.tsx';
 import { Title, Loader } from '@mantine/core';
-import { getAllThreads, Thread } from '../threadApi';
+import { getAllThreads, Thread } from '../threadApi.ts';
 
 function catTitle(url: string): string {
   const name = url.split('/').pop()?.split('.')[0] || '';
@@ -22,10 +22,18 @@ export default function Category() {
     const fetchData = async () => {
       try {
         const fetchedThreads = await getAllThreads();
-        
+        //------------------log-----------------------//
+          console.log("fetched:::::"+fetchedThreads);
+        //--------------------------------------------//
+
         const categoryThreads = fetchedThreads.filter((thread) => {
             return thread.cat === categoryName.toLowerCase();
           });
+
+          //------------------log-----------------------//
+          console.log("cat:::::"+categoryThreads);
+        //--------------------------------------------//
+        
         setThreads(categoryThreads);
       } catch (error) {
         setError('Failed to load threads. Please try again later.');

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Container, Title, Text, Flex, Button, Avatar, Divider } from "@mantine/core";
-import PostBox from "../components/PostBox";
+import PostBox from "../components/PostBox.tsx";
 import { IconBookmark, IconBookmarkFilled, IconPlus, IconX } from "@tabler/icons-react";
-import AddPost from "../components/AddPost";
+import AddPost from "../components/AddPost.tsx";
 
 const saveicon = <IconBookmark />;
 const savedicon = <IconBookmarkFilled />;
@@ -11,7 +11,7 @@ const   closeicon = <IconX />;
 
 export default function Thread() {
   const [saved, setSaved] = useState(true);
-  const [showAddPost, setShowAddPost] = useState(false); // State for managing the AddPost visibility
+  const [showAddPost, setShowAddPost] = useState(false);
 
   function handleSaving(): void {
     setSaved(!saved);
