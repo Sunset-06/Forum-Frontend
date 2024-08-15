@@ -5,11 +5,13 @@ export interface Thread {
     title: string;
     content: string;
     authorId: string; 
-    createdAt: string;
-    updatedAt?: string; 
+    authorName: string; 
+    created: { seconds: number; nanos: number };
+    updated?: { seconds: number; nanos: number };
+    lastPost?: { seconds: number; nanos: number };
     pfpUrl?: string; 
-    posts: number;
-    cat: string;
+    postCount: number;
+    category: string;
   }
   
 export interface NewThread {

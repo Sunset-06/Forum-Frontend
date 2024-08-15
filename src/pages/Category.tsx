@@ -1,5 +1,3 @@
-// src/pages/CategoryPage.tsx
-
 import { useState, useEffect } from 'react';
 import ThreadBox from '../components/ThreadBox.tsx';
 import { Title, Loader } from '@mantine/core';
@@ -23,15 +21,15 @@ export default function Category() {
       try {
         const fetchedThreads = await getAllThreads();
         //------------------log-----------------------//
-          console.log("fetched:::::"+fetchedThreads);
+          console.log("fetched:::::",fetchedThreads);
         //--------------------------------------------//
 
         const categoryThreads = fetchedThreads.filter((thread) => {
-            return thread.cat === categoryName.toLowerCase();
+            return thread.category === categoryName.toLowerCase();
           });
 
           //------------------log-----------------------//
-          console.log("cat:::::"+categoryThreads);
+          console.log("cat:::::",categoryThreads);
         //--------------------------------------------//
         
         setThreads(categoryThreads);
@@ -51,18 +49,18 @@ export default function Category() {
         Category: {categoryName}
       </Title>
       {loading ? (
-        <Loader variant="oval" size="md" color="teal" />
+        <Loader variant="oval" size="md" color="teal" mx="4em" />
       ) : error ? (
         <div style={{ color: 'red' }}>{error}</div>
       ) : (
         threads.map((thread) => (
           <ThreadBox
             key={thread.id} 
-            username={thread.authorId}
-            timestamp={thread.createdAt}
+            authorName={thread.authorName}
+            timestamp={thread.created}
             pfpUrl={thread.pfpUrl || ''}
             title={thread.title}
-            posts={thread.posts}
+            postCount={thread.postCount}
           />
         ))
       )}
