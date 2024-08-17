@@ -34,7 +34,7 @@ const Router = () => {
           <Route path="/cats" element={<Categories />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/cats/*" element={<CategoryPage />} />
-          <Route path="/thread/*" element={<Thread />} />
+          <Route path="/thread/:id" element={<Thread />} />
           <Route path="/create" element={<AddThread />} />
         </Route>
       </Routes>

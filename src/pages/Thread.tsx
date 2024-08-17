@@ -1,25 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Container, Title, Text, Flex, Button, Avatar, Divider } from "@mantine/core";
 import PostBox from "../components/PostBox.tsx";
 import { IconBookmark, IconBookmarkFilled, IconPlus, IconX } from "@tabler/icons-react";
 import AddPost from "../components/AddPost.tsx";
+import { getThreadById } from "../threadApi";
+import type { Thread } from "../threadApi"; 
 
 const saveicon = <IconBookmark />;
 const savedicon = <IconBookmarkFilled />;
 const addicon = <IconPlus />;
-const   closeicon = <IconX />;
+const closeicon = <IconX />;
 
-export default function Thread() {
+const Thread: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const [saved, setSaved] = useState(true);
   const [showAddPost, setShowAddPost] = useState(false);
+  const [threadData, setThreadData] = useState<Thread | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSaving(): void {
-    setSaved(!saved);
-  }
+  useEffect(() => {
+    const fetchThread = async () => {
+      try {
+        const fetchedThread = await getThreadById(id!);
+        setThreadData(fetchedThread);
+      } catch (err) {
+        setError('Failed to load the thread.');
+        console.error('Error fetching thread:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  function toggleAddPost() {
-    setShowAddPost(!showAddPost); 
-  }
+    fetchThread();
+  }, [id]);
+
+  const handleSaving = () => setSaved(!saved);
+  const toggleAddPost = () => setShowAddPost(!showAddPost);
+
+  const renderCount = (count: number) => count.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });
+
+  const renderTimestamp = (timestamp: { seconds: number; nanos: number }) => {
+    const date = new Date(timestamp.seconds * 1000 + timestamp.nanos / 1000000);
+    const currentdate = new Date();
+    const istoday = date.toDateString() === currentdate.toDateString();
+    const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+    const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
+    const renderDate = new Intl.DateTimeFormat('en-GB', dateOptions).format(date);
+    const renderTime = new Intl.DateTimeFormat('en-GB', timeOptions).format(date);
+   
+    return istoday ? `Today, ${renderTime}` : `${renderDate}`;
+  };
+
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!threadData) return <div>Thread not found.</div>;
+
+  const { authorName, created, pfpUrl, title, content, postCount } = threadData;
+
 
   return (
     <>
@@ -36,37 +76,24 @@ export default function Thread() {
             variant="light"
             radius="lg"
             size="xl"
-            component="a"
-            href="/profile/username"
+            src={pfpUrl}
+            component={Link}
+            to={`/profile/${authorName}`}
           />
           <Flex direction="column">
-            <Text component="a" href="/profile/username">
-              Nickname
-            </Text>
-            <Text>Timestamp</Text>
+            <Text variant="dimmed" component={Link} to={`/profile/${authorName}`}>{authorName}</Text>
+            <Text variant="dimmed">{renderTimestamp(created)}</Text>
           </Flex>
-
           <Divider orientation="vertical" size="md" />
-          <Title c="white">
-            A Title for a thread that you probably don't care about with text just to check what
-            happens when the text wraps
-          </Title>
-
+          <Title c="white">{title}</Title>
           <Flex direction="column" ml="auto">
-            <Title>56</Title>
+            <Title>{renderCount(postCount)}</Title>
             <Text>posts</Text>
           </Flex>
         </Flex>
 
         <Flex direction="column" mt="3rem">
-          <Text size="lg">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolorum est, rem
-            voluptate tempore culpa ipsa illum aliquam explicabo. Quaerat debitis dolore odit
-            aperiam nostrum facilis sunt sit enim cupiditate? Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. Laudantium in maiores dolorum cumque voluptatibus beatae
-            distinctio, rem omnis eius temporibus, accusantium rerum delectus fuga optio consequatur
-            placeat nihil eveniet? Ab?
-          </Text>
+          <Text size="lg">{content}</Text>
         </Flex>
       </Container>
 
@@ -81,7 +108,13 @@ export default function Thread() {
           >
             {saved ? "Saved!" : "Save"}
           </Button>
-          <Button variant="filled" color="teal" leftSection={showAddPost ? closeicon : addicon} onClick={toggleAddPost}>
+
+          <Button
+            variant="filled"
+            color="teal"
+            leftSection={showAddPost ? closeicon : addicon}
+            onClick={toggleAddPost}
+          >
             Add Post
           </Button>
         </Flex>
@@ -102,4 +135,6 @@ export default function Thread() {
       </Container>
     </>
   );
-}
+};
+
+export default Thread;
