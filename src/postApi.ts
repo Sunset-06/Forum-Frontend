@@ -1,35 +1,35 @@
 import axios, { AxiosInstance } from 'axios';
 
-interface Post {
+export interface Post {
     id: string;
-    title: string;
     content: string;
-    authorId: string; 
-    createdAt: string;
-    updatedAt?: string; 
-    pfpUrl?: string; 
-  }
-  
+    authorName: string;
+    created: { seconds: number; nanos: number };
+    pfpUrl: string;
+}
+
 interface NewPost {
     title: string;
     content: string;
-    authorId: string;
-  }
-  
+    authorName: string;
+}
+
 interface UpdatePost {
     title?: string;
     content?: string;
 }
 
-const postApi: AxiosInstance = axios.create({
-  baseURL: '/api/posts',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const createPostApiInstance = (threadId: string): AxiosInstance => {
+  return axios.create({
+    baseURL: `/api/threads/${threadId}/posts`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
-// Function to create a new post
-export const createPost = async (postData: NewPost): Promise<Post> => {
+export const createPost = async (threadId: string, postData: NewPost): Promise<Post> => {
+  const postApi = createPostApiInstance(threadId);
   try {
     const response = await postApi.post<Post>('/', postData);
     return response.data;
@@ -39,8 +39,8 @@ export const createPost = async (postData: NewPost): Promise<Post> => {
   }
 };
 
-// Function to get a post by ID
-export const getPostById = async (id: string): Promise<Post> => {
+export const getPostById = async (threadId: string, id: string): Promise<Post> => {
+  const postApi = createPostApiInstance(threadId);
   try {
     const response = await postApi.get<Post>(`/${id}`);
     return response.data;
@@ -50,10 +50,10 @@ export const getPostById = async (id: string): Promise<Post> => {
   }
 };
 
-// Function to get all posts
-export const getAllPosts = async (): Promise<Post[]> => {
+export const getAllPosts = async (threadId: string): Promise<Post[]> => {
+  const postApi = createPostApiInstance(threadId);
   try {
-    const response = await postApi.get<Post[]>('/');
+    const response = await postApi.get<Post[]>("");
     return response.data;
   } catch (error) {
     console.error('Error fetching all posts:', error);
@@ -61,8 +61,8 @@ export const getAllPosts = async (): Promise<Post[]> => {
   }
 };
 
-// Function to update a post by ID
-export const updatePost = async (id: string, postData: UpdatePost): Promise<Post> => {
+export const updatePost = async (threadId: string, id: string, postData: UpdatePost): Promise<Post> => {
+  const postApi = createPostApiInstance(threadId);
   try {
     const response = await postApi.put<Post>(`/${id}`, postData);
     return response.data;
@@ -72,8 +72,8 @@ export const updatePost = async (id: string, postData: UpdatePost): Promise<Post
   }
 };
 
-// Function to delete a post by ID
-export const deletePost = async (id: string): Promise<string> => {
+export const deletePost = async (threadId: string, id: string): Promise<string> => {
+  const postApi = createPostApiInstance(threadId);
   try {
     const response = await postApi.delete<string>(`/${id}`);
     return response.data;
@@ -83,4 +83,4 @@ export const deletePost = async (id: string): Promise<string> => {
   }
 };
 
-export default postApi;  
+export default createPostApiInstance;

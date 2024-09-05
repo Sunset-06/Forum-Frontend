@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Container, Title, Text, Flex, Button, Avatar, Divider } from "@mantine/core";
+import { Container, Title, Text, Flex, Button, Avatar, Divider, Loader } from "@mantine/core";
 import PostBox from "../components/PostBox.tsx";
 import { IconBookmark, IconBookmarkFilled, IconPlus, IconX } from "@tabler/icons-react";
 import AddPost from "../components/AddPost.tsx";
 import { getThreadById } from "../threadApi";
 import type { Thread } from "../threadApi"; 
+import { getAllPosts } from "../postApi";
+import type { Post } from "../postApi"; 
 
 const saveicon = <IconBookmark />;
 const savedicon = <IconBookmarkFilled />;
@@ -17,25 +19,32 @@ const Thread: React.FC = () => {
   const [saved, setSaved] = useState(true);
   const [showAddPost, setShowAddPost] = useState(false);
   const [threadData, setThreadData] = useState<Thread | null>(null);
+  const [postsData, setPostsData] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchThread = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
         const fetchedThread = await getThreadById(id!);
         setThreadData(fetchedThread);
+
+        const fetchedPosts = await getAllPosts(id!);
+        setPostsData(fetchedPosts);
       } catch (err) {
-        setError('Failed to load the thread.');
-        console.error('Error fetching thread:', err);
+        setError('Failed to load data.');
+        console.error('Error fetching data:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchThread();
+    fetchData();
   }, [id]);
 
+  console.log(postsData);
+  
   const handleSaving = () => setSaved(!saved);
   const toggleAddPost = () => setShowAddPost(!showAddPost);
 
@@ -54,7 +63,7 @@ const Thread: React.FC = () => {
   };
 
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader variant="oval" size="md" color="teal" mx="4em" />
   if (error) return <div>{error}</div>;
   if (!threadData) return <div>Thread not found.</div>;
 
@@ -127,11 +136,19 @@ const Thread: React.FC = () => {
       </Container>
 
       <Container fluid>
-        <PostBox />
-        <PostBox />
-        <PostBox />
-        <PostBox />
-        <PostBox />
+        {postsData.length > 0 ? (
+          postsData.map((post) => (
+            <PostBox
+              key={post.id}
+              authorName={post.authorName}
+              timestamp={post.created}
+              content={post.content}
+              pfpUrl={post.pfpUrl}
+            />
+          ))
+        ) : (
+          <Text>No posts yet:( Add one to start a conversation!</Text>
+        )}
       </Container>
     </>
   );
