@@ -4,10 +4,10 @@ import { Container, Title, Text, Flex, Button, Avatar, Divider, Loader } from "@
 import PostBox from "../components/PostBox.tsx";
 import { IconBookmark, IconBookmarkFilled, IconPlus, IconX } from "@tabler/icons-react";
 import AddPost from "../components/AddPost.tsx";
-import { getThreadById } from "../threadApi";
-import type { Thread } from "../threadApi"; 
-import { getAllPosts } from "../postApi";
-import type { Post } from "../postApi"; 
+import { getThreadById } from "../axios/threadApi.ts";
+import type { Thread } from "../axios/threadApi.ts"; 
+import { getAllPosts } from "../axios/postApi.ts";
+import type { Post } from "../axios/postApi.ts"; 
 
 const saveicon = <IconBookmark />;
 const savedicon = <IconBookmarkFilled />;
