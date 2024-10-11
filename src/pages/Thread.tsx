@@ -16,7 +16,7 @@ const closeicon = <IconX />;
 
 const Thread: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [saved, setSaved] = useState(true);
+  const [saved, setSaved] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
   const [threadData, setThreadData] = useState<Thread | null>(null);
   const [postsData, setPostsData] = useState<Post[]>([]);
@@ -42,8 +42,6 @@ const Thread: React.FC = () => {
 
     fetchData();
   }, [id]);
-
-  console.log(postsData);
   
   const handleSaving = () => setSaved(!saved);
   const toggleAddPost = () => setShowAddPost(!showAddPost);

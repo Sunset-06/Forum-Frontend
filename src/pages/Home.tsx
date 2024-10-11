@@ -1,10 +1,10 @@
-import { Title } from "@mantine/core";
+import { Title, Text } from "@mantine/core";
 
 export default function HomePage(){
-    console.log(import.meta.env.API_KEY);
     return(
         <>
           <Title m="3em">Coming Soon</Title>  
+          <Text m="3em">Check out the categories page till then</Text>
         </>
     );
 }

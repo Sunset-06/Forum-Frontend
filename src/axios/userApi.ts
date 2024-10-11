@@ -1,26 +1,12 @@
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    bio: string;
-    pfpUrl: string;
-  }
-  
-interface NewUser {
-    id: string;
-    username: string;
-    email: string;
-  }
-
-interface UpdateUser {
-    id: string;
-    username: string;
-    email: string;
-    bio: string;
-    pfpUrl: string;
-  }
-
 import axios, { AxiosInstance } from 'axios';
+
+export interface User {
+  id:string;
+  username: string;
+  email: string;
+  bio: string;
+  pfp: string;
+}
 
 const userApi: AxiosInstance = axios.create({
   baseURL: '/api/users',
@@ -29,10 +15,9 @@ const userApi: AxiosInstance = axios.create({
   },
 });
 
-// Function to create a new user
-export const createUser = async (userData: NewUser): Promise<User> => {
+export const createUser = async (userData: User): Promise<User> => {
   try {
-    const response = await userApi.post<User>('/', userData);
+    const response = await userApi.post<User>('/',userData);
     return response.data;
   } catch (error) {
     console.error('Error creating user:', error);
@@ -40,7 +25,6 @@ export const createUser = async (userData: NewUser): Promise<User> => {
   }
 };
 
-// Function to get a user by ID
 export const getUserById = async (id: string): Promise<User> => {
   try {
     const response = await userApi.get<User>(`/${id}`);
@@ -51,7 +35,11 @@ export const getUserById = async (id: string): Promise<User> => {
   }
 };
 
-// Function to get all users
+export const getUserPfp = async (id:string): Promise<string> => {
+    const response = await userApi.get<User>(`/${id}`);
+    return response.data.pfp;
+}
+
 export const getAllUsers = async (): Promise<User[]> => {
   try {
     const response = await userApi.get<User[]>('/');
@@ -62,8 +50,7 @@ export const getAllUsers = async (): Promise<User[]> => {
   }
 };
 
-// Function to update a user by ID
-export const updateUser = async (id: string, userData: UpdateUser): Promise<User> => {
+export const updateUser = async (id: string, userData: User): Promise<User> => {
   try {
     const response = await userApi.put<User>(`/${id}`, userData);
     return response.data;
@@ -73,7 +60,6 @@ export const updateUser = async (id: string, userData: UpdateUser): Promise<User
   }
 };
 
-// Function to delete a user by ID
 export const deleteUser = async (id: string): Promise<string> => {
   try {
     const response = await userApi.delete<string>(`/${id}`);

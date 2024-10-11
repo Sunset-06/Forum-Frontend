@@ -1,20 +1,45 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Autocomplete, Group, Text, rem, Avatar } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getUserPfp } from '../axios/userApi';
 import classes from './Navbar.module.css';
 
 export default function Navbar() {
-  const [auth, setAuth] = useState(false);
-  const user = {
-    id: 'user123',
-    name: 'John Doe',
-    avatarUrl: 'localhost:5173/src/assets/cats-temp.jpg',
-  };
+  const[isSignedIn,setIsSignedIn]=useState(false);
+  const [user, setUser] = useState({id:"",pfp:""});
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      const fetchpfp = async () =>{
+        if (currentUser){
+          try{
+            const pfp = await getUserPfp(currentUser.uid);
+            setUser({
+              id: currentUser.uid,
+              pfp: pfp
+            });
+            setIsSignedIn(true);
+          }
+          catch(error){
+            console.error("Error fetching profile picture: "+ error);
+          }
+        } 
+      else
+        setIsSignedIn(false);
+    };
+
+    fetchpfp();
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   return (
     <header className={classes.header}>
       <div className={classes.inner}> 
-          <Text>Forumeong</Text>
+        <Text>Forumeong</Text>
 
         <Group>
           <Autocomplete
@@ -25,27 +50,23 @@ export default function Navbar() {
             visibleFrom="xs"
           />
           
-          {auth ? (
+          {isSignedIn ? (
             <Avatar
-              src={user.avatarUrl}
-              alt={user.name}
+              src={user.pfp}
               component="a"
               href={`/profile/${user.id}`}
               radius="md"
               size={rem(32)}
-              className={classes.avatar}
             />
           ) : (
             <Button
               variant="filled"
               component="a"
-              /* href="/signin" */
-              onClick={() => setAuth(true)}
+              href="/signin" 
             >
               Sign In
             </Button>
           )}
-
         </Group>
       </div>
     </header>

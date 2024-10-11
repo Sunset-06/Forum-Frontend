@@ -12,23 +12,36 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import register from '../auth/register';
+import { createUser } from '../axios/userApi';
 import classes from './Auth.module.css';
 
 export default function Register() {
   const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await register(email, password);
-      alert("Registration successful");
+      const userid= await register(email, password);
+      const newUser={
+        id: userid,
+        username:username,
+        email:email,
+        bio:"I just joined Forumeong!!",
+        pfp:""
+      }
+      createUser(newUser);
+
     } catch (error: any) {
       if (error.message.includes('auth/invalid-email')) {
-        setError("Invalid Username, please try again.");
+        setError("Invalid email, please try again.");
       }
-      alert(error.message || "Registration failed");
+      else if (error.message.includes('auth/email-already-in-use')) {
+        setError("Email already in use, please try again.");
+      } 
+      setError("Registration failed, try again later");
     }
   };  
 
@@ -52,11 +65,18 @@ export default function Register() {
             required
             onChange={(e) => setEmail(e.target.value)}
           />
+          <TextInput
+            label="Username"
+            placeholder="Pick a cool username!"
+            required
+            mt="sm"
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <PasswordInput
             label="Password"
             placeholder="Your password"
             required
-            mt="md"
+            mt="sm"
             onChange={(e) => setPassword(e.target.value)}
           />
           <Text c="red" size="sm" mt="md">{error}</Text>
