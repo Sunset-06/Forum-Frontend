@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth } from '../firebaseConfig.ts'; 
-import { Loader } from '@mantine/core';
+import { Flex, Loader } from '@mantine/core';
+import { getUserById } from '../axios/userApi.ts';
 
 const AuthContext = createContext<any>(null);
 
@@ -10,7 +11,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user);
+      if (user) {
+        const profile = getUserById(user.uid);
+        setCurrentUser(profile);
+      } else {
+        setCurrentUser(null);
+      }
       setLoading(false);
     });
 
@@ -18,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (loading) {
-    return <Loader size="lg" />; 
+    return <Flex align="center" justify="center" style={{width:'100vw'}}><Loader size="lg" color='teal' /></Flex>;
   }
 
   return (

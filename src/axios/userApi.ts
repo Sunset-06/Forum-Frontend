@@ -17,8 +17,8 @@ const userApi: AxiosInstance = axios.create({
 
 export const createUser = async (userData: User): Promise<User> => {
   try {
-    const response = await userApi.post<User>('/',userData);
-    return response.data;
+    const response = await userApi.post<User>('',userData);
+    return response.data; 
   } catch (error) {
     console.error('Error creating user:', error);
     throw error;
@@ -35,13 +35,18 @@ export const getUserById = async (id: string): Promise<User> => {
   }
 };
 
-export const getUserPfp = async (id:string): Promise<string> => {
+export const getUserPfp = async (id: string): Promise<string> => {
+  try {
     const response = await userApi.get<User>(`/${id}`);
-    return response.data.pfp;
+    return response.data.pfp ?? 'src/assets/def-pfp.png'; 
+  } catch (error) {
+    console.error(`Error fetching profile picture for user with ID ${id}:`, error);
+    return 'src/assets/def-pfp.png'; 
+  }
 }
 
 export const getAllUsers = async (): Promise<User[]> => {
-  try {
+  try { 
     const response = await userApi.get<User[]>('/');
     return response.data;
   } catch (error) {
@@ -50,9 +55,13 @@ export const getAllUsers = async (): Promise<User[]> => {
   }
 };
 
-export const updateUser = async (id: string, userData: User): Promise<User> => {
+export const updateUser = async (id: string, userData: FormData): Promise<User> => {
   try {
-    const response = await userApi.put<User>(`/${id}`, userData);
+    const response = await axios.put<User>(`/api/users/${id}`, userData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(`Error updating user with ID ${id}:`, error);

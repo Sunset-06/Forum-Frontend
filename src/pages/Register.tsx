@@ -30,7 +30,7 @@ export default function Register() {
         username:username,
         email:email,
         bio:"I just joined Forumeong!!",
-        pfp:""
+        pfp:"src/assets/def-pfp.png"
       }
       createUser(newUser);
 
