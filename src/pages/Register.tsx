@@ -14,6 +14,8 @@ import { useState } from 'react';
 import register from '../auth/register';
 import { createUser } from '../axios/userApi';
 import classes from './Auth.module.css';
+import initpfp from '../assets/fnnuy.jpg';
+
 
 export default function Register() {
   const [email, setEmail] = useState<string>("");
@@ -30,7 +32,7 @@ export default function Register() {
         username:username,
         email:email,
         bio:"I just joined Forumeong!!",
-        pfp:"src/assets/def-pfp.png"
+        pfp:initpfp
       }
       createUser(newUser);
 

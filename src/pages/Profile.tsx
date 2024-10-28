@@ -109,9 +109,6 @@ export default function Profile() {
                 alt={`${userData.username}'s profile`}
                 fit="cover"
                 style={{ cursor: 'pointer' }}
-                onError={(e) => {
-                  e.currentTarget.src = "src/assets/def-pfp.png";
-                }}
               />
             </label>
             {showButtons && (
