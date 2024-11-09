@@ -7,33 +7,12 @@ export interface Thread {
     authorId: string; 
     authorName: string; 
     created: { seconds: number; nanos: number };
-    updated?: { seconds: number; nanos: number };
     lastPost?: { seconds: number; nanos: number };
-    pfpUrl?: string; 
+    updatedAt?: { seconds: number; nanos: number };
+    pfpUrl: string; 
     postCount: number;
-    category: string;
+    category: string | null;
   }
-  
-export interface NewThread {
-    title: string;
-    content: string;
-    authorId: string; 
-    createdAt: string;
-    updatedAt?: string; 
-    pfpUrl?: string; 
-    posts: number;
-    cat: string;
-}
-  
-export interface UpdateThread {
-    title: string;
-    content: string;
-    authorId: string; 
-    createdAt: string;
-    updatedAt?: string; 
-    pfpUrl?: string; 
-    posts: number;
-}
 
 const threadApi: AxiosInstance = axios.create({
   baseURL: '/api/threads',
@@ -42,12 +21,12 @@ const threadApi: AxiosInstance = axios.create({
   },
 });
 
-export const createThread = async (postData: NewThread): Promise<Thread> => {
+export const createThread = async (newThread: Thread): Promise<Thread> => {
   try {
-    const response = await threadApi.post<Thread>('/', postData);
+    const response = await threadApi.post<Thread>('', newThread);
     return response.data;
   } catch (error) {
-    console.error('Error creating post:', error);
+    console.error('Error creating thread:', error);
     throw error;
   }
 };
@@ -57,7 +36,7 @@ export const getThreadById = async (id: string): Promise<Thread> => {
     const response = await threadApi.get<Thread>(`/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching post with ID ${id}:`, error);
+    console.error(`Error fetching thread with ID ${id}:`, error);
     throw error;
   }
 };
@@ -67,17 +46,17 @@ export const getAllThreads = async (): Promise<Thread[]> => {
     const response = await threadApi.get<Thread[]>('/');
     return response.data;
   } catch (error) {
-    console.error('Error fetching all posts:', error);
+    console.error('Error fetching all thread:', error);
     throw error;
   }
 };
 
-export const updateThread = async (id: string, postData: UpdateThread): Promise<Thread> => {
+export const updateThread = async (id: string, updatedThread: Thread): Promise<Thread> => {
   try {
-    const response = await threadApi.put<Thread>(`/${id}`, postData);
+    const response = await threadApi.put<Thread>(`/${id}`, updatedThread);
     return response.data;
   } catch (error) {
-    console.error(`Error updating post with ID ${id}:`, error);
+    console.error(`Error updating thread with ID ${id}:`, error);
     throw error;
   }
 };
@@ -87,7 +66,7 @@ export const deleteThread = async (id: string): Promise<string> => {
     const response = await threadApi.delete<string>(`/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error deleting post with ID ${id}:`, error);
+    console.error(`Error deleting thread with ID ${id}:`, error);
     throw error;
   }
 };

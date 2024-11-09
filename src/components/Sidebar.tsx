@@ -7,7 +7,7 @@ import {
   IconCategory2, 
   IconBread, 
   IconPlus } from '@tabler/icons-react';
-import { useAuth } from '../auth/AuthContext';  // Import useAuth hook
+import { useAuth } from '../auth/AuthContext'; 
 import classes from './Sidebar.module.css';
 
 interface NavbarLinkProps {
@@ -36,7 +36,7 @@ const mockdata = [
 
 export default function Sidebar() {
   const location = useLocation();
-  const { currentUser, isSignedIn } = useAuth();  // Access currentUser and isSignedIn from context
+  const { currentUser, isSignedIn } = useAuth(); 
   const [active, setActive] = useState(2);
 
   useEffect(() => {
