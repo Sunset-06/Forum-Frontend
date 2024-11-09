@@ -1,45 +1,16 @@
-import { useEffect, useState } from 'react';
 import { Button, Autocomplete, Group, Text, rem, Avatar } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getUserPfp } from '../axios/userApi';
+import { useAuth } from '../auth/AuthContext';  // Import useAuth hook
 import classes from './Navbar.module.css';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
-  const[isSignedIn,setIsSignedIn]=useState(false);
-  const [user, setUser] = useState({id:"",pfp:""});
-  const auth = getAuth();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      const fetchpfp = async () =>{
-        if (currentUser){
-          try{
-            const pfp = await getUserPfp(currentUser.uid);
-            setUser({
-              id: currentUser.uid,
-              pfp: pfp
-            });
-            setIsSignedIn(true);
-          }
-          catch(error){
-            console.error("Error fetching profile picture: "+ error);
-          }
-        } 
-      else
-        setIsSignedIn(false);
-    };
-
-    fetchpfp();
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
+  const { currentUser, isSignedIn } = useAuth();
 
   return (
     <header className={classes.header}>
       <div className={classes.inner}> 
-        <Text>Forumeong</Text>
+        <Link to={'/'} className={classes.name}><Text>Forumeong</Text></Link>
 
         <Group>
           <Autocomplete
@@ -52,9 +23,9 @@ export default function Navbar() {
           
           {isSignedIn ? (
             <Avatar
-              src={user.pfp}
+              src={currentUser.pfp}
               component="a"
-              href={`/profile/${user.id}`}
+              href={`/profile/${currentUser.id}`}
               radius="md"
               size={rem(32)}
             />

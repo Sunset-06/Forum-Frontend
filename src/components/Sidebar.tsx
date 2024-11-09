@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Tooltip, Stack, rem } from '@mantine/core';
 import { Link, useLocation } from 'react-router-dom';
-import {
+import { 
   IconHome,
-  IconCat,
-  IconCategory2,
-  IconBread,
-  IconPlus,
-} from '@tabler/icons-react';
+  IconCat, 
+  IconCategory2, 
+  IconBread, 
+  IconPlus } from '@tabler/icons-react';
+import { useAuth } from '../auth/AuthContext';  // Import useAuth hook
 import classes from './Sidebar.module.css';
 
 interface NavbarLinkProps {
@@ -32,11 +32,11 @@ const mockdata = [
   { icon: IconBread, label: 'Saved', to: '/saved' },
   { icon: IconCategory2, label: 'Categories', to: '/cats' },
   { icon: IconHome, label: 'Home', to: '/' },
-  { icon: IconCat, label: 'Profile', to: '/profile/username' },
 ];
 
 export default function Sidebar() {
   const location = useLocation();
+  const { currentUser, isSignedIn } = useAuth();  // Access currentUser and isSignedIn from context
   const [active, setActive] = useState(2);
 
   useEffect(() => {
@@ -45,8 +45,9 @@ export default function Sidebar() {
     setActive(activeIndex);
   }, [location]);
 
-  const links = mockdata.map((link, index) => (
-    <NavbarLink
+  const profileLink = isSignedIn ? { icon: IconCat, label: 'Profile', to: `/profile/${currentUser.id}` } : null;
+  const links = [...mockdata, profileLink].map((link, index) => (
+    link && <NavbarLink
       {...link}
       key={link.label}
       active={index === active}
