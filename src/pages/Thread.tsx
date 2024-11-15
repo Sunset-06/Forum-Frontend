@@ -48,17 +48,20 @@ const Thread: React.FC = () => {
 
   const renderCount = (count: number) => count.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });
 
-  const renderTimestamp = (timestamp: { seconds: number; nanos: number }) => {
-    const date = new Date(timestamp.seconds * 1000 + timestamp.nanos / 1000000);
-    const currentdate = new Date();
-    const istoday = date.toDateString() === currentdate.toDateString();
-    const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
-    const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
-    const renderDate = new Intl.DateTimeFormat('en-GB', dateOptions).format(date);
-    const renderTime = new Intl.DateTimeFormat('en-GB', timeOptions).format(date);
-   
-    return istoday ? `Today, ${renderTime}` : `${renderDate}`;
-  };
+  const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefined) => {
+    var final = "date unknown";
+    if(timestamp!=undefined){
+      const date = new Date(timestamp.seconds * 1000 + timestamp.nanos / 1000000);
+      const currentdate = new Date();
+      const istoday = date.toDateString() === currentdate.toDateString();
+      const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+      const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
+      const renderDate = new Intl.DateTimeFormat('en-GB', dateOptions).format(date);
+      const renderTime = new Intl.DateTimeFormat('en-GB', timeOptions).format(date);
+      final = istoday ? `Today, ${renderTime}` : `${renderDate}`;
+    }
+    return final;
+};
 
 
   if (loading) return <Loader variant="oval" size="md" color="teal" mx="4em" />

@@ -3,6 +3,7 @@ import { Textarea, Button, Group, Select, Container } from '@mantine/core';
 import { useAuth } from '../auth/AuthContext.tsx';
 import { createThread } from '../axios/threadApi';
 import { Thread } from '../axios/threadApi';
+import { useNavigate } from 'react-router-dom';
 
 const cats = [
   { value: 'video-games', label: 'Video Games' },
@@ -24,6 +25,7 @@ export default function NewThreadForm() {
   const [category, setCategory] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -39,17 +41,18 @@ export default function NewThreadForm() {
       content,
       authorId: currentUser.id,
       authorName: currentUser.username,
-      created: { seconds: Math.floor(Date.now() / 1000), nanos: 0 },
       pfpUrl: currentUser.pfp,
       postCount: 0,
       category,
     };
 
     try {
-      await createThread(newThread);
+      const responseId= await createThread(newThread);
+
       setTitle('');
       setContent('');
       setCategory('');
+      navigate(`/thread/${responseId}`);   
     } catch (error) {
       setError('Failed to create thread. Please try again.');
     }

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth } from '../firebaseConfig.ts'; 
-import { Flex, Loader } from '@mantine/core';
+import { Flex, Loader, Text } from '@mantine/core';
 import { getUserById, getUserPfp } from '../axios/userApi.ts';
 
 const AuthContext = createContext<any>(null);
@@ -29,11 +29,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     });
 
-    return unsubscribe; // Cleanup subscription on unmount
+    return unsubscribe; 
   }, []);
 
+  //For fun, really
+  const loadingQuotes = [
+    "This could take some time",
+    "Page is loading! (I hope.)",
+    "The cat images make this slow.",
+    "I test in production. This is production.",
+    '"CATS, he said eventually. CATS ARE NICE."',
+    '"Real stupidity beats artificial intelligence every time"',
+    "It's not your internet, it's the server."
+  ];
+
   if (loading) {
-    return <Flex align="center" justify="center" style={{width:'100vw'}}><Loader size="lg" color='teal' /></Flex>;
+    return(
+      <Flex align="center" justify="center" direction="column" style={{width:'100vw'}}>
+        <Loader size="lg" color='teal' mb="sm" />
+        <Text>{loadingQuotes[Math.floor(Math.random() * loadingQuotes.length)]}</Text>
+      </Flex>
+    );
   }
 
   return (

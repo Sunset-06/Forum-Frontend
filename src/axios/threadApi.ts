@@ -6,7 +6,7 @@ export interface Thread {
     content: string;
     authorId: string; 
     authorName: string; 
-    created: { seconds: number; nanos: number };
+    created?: { seconds: number; nanos: number };
     lastPost?: { seconds: number; nanos: number };
     updatedAt?: { seconds: number; nanos: number };
     pfpUrl: string; 
@@ -21,10 +21,11 @@ const threadApi: AxiosInstance = axios.create({
   },
 });
 
-export const createThread = async (newThread: Thread): Promise<Thread> => {
+export const createThread = async (newThread: Thread): Promise<string> => {
   try {
-    const response = await threadApi.post<Thread>('', newThread);
-    return response.data;
+    const response = await threadApi.post<string>('/', newThread);
+    const threadId = response.data.split('Thread created at: ')[1];
+    return threadId;
   } catch (error) {
     console.error('Error creating thread:', error);
     throw error;

@@ -4,12 +4,27 @@ import { Link } from "react-router-dom";
 interface ThreadAtts {
   id: string;
   authorName: string;
-  timestamp: { seconds: number; nanos: number };
+  timestamp?: { seconds: number; nanos: number };
   pfpUrl: string;
   title: string;
   content: string;
   postCount: number;
 }
+
+const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefined) => {
+    var final = "date unknown";
+    if(timestamp!=undefined){
+      const date = new Date(timestamp.seconds * 1000 + timestamp.nanos / 1000000);
+      const currentdate = new Date();
+      const istoday = date.toDateString() === currentdate.toDateString();
+      const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+      const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
+      const renderDate = new Intl.DateTimeFormat('en-GB', dateOptions).format(date);
+      const renderTime = new Intl.DateTimeFormat('en-GB', timeOptions).format(date);
+      final = istoday ? `Today, ${renderTime}` : `${renderDate}`;
+    }
+    return final;
+};
 
 const ThreadBox: React.FC<ThreadAtts> = ({
   id,
@@ -20,23 +35,7 @@ const ThreadBox: React.FC<ThreadAtts> = ({
   content,
   postCount,
 }) => {
-    const renderCount = postCount.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });
-    const date = new Date(timestamp.seconds * 1000 + timestamp.nanos / 1000000);
-    const currentdate = new Date();
-    const istoday = date.toDateString() === currentdate.toDateString();
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      month: 'short',
-      day: 'numeric',
-    };
-    
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: 'numeric',
-      minute: 'numeric',
-    };
-    const renderDate = new Intl.DateTimeFormat('en-GB', dateOptions).format(date);
-    const renderTime = new Intl.DateTimeFormat('en-GB', timeOptions).format(date);
-    
-    const renderTimestamp = istoday ? `Today,  ${renderTime}` : `${renderDate}`;
+    const renderCount = postCount.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });    
 
   return (
     <Container fluid bg="black" m="3em" p="1em" style={{borderRadius: "1em"}}>
@@ -44,7 +43,7 @@ const ThreadBox: React.FC<ThreadAtts> = ({
             <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href={`/profile/${authorName}`} src={pfpUrl} />
             <Flex direction="column">
                 <Text variant="dimmed" component="a" href={`/profile/${authorName}`}>{authorName}</Text>
-                <Text variant="dimmed">{renderTimestamp}</Text>
+                <Text variant="dimmed">{renderTimestamp(timestamp)}</Text>
             </Flex>
   
             <Divider orientation="vertical" size="md" />
