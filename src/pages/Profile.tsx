@@ -36,7 +36,7 @@ export default function Profile() {
         const fetchedUser = await getUserById(id!);
         setUserData(fetchedUser);
 
-        if (currentUser?.uid === id) {
+        if (currentUser?.id === id) {
           setShowButtons(true);
         }
         setUpdatedUsername(fetchedUser.username);
@@ -122,38 +122,65 @@ export default function Profile() {
             )}
           </div>
           <Flex direction="column" justify="center">
-            {editing ? (
-              <>
-                <Input
-                  value={updatedUsername}
-                  onChange={(e) => setUpdatedUsername(e.currentTarget.value)}
-                  placeholder="Username"
-                  required
-                />
-                <Textarea
-                  value={updatedBio}
-                  onChange={(e) => setUpdatedBio(e.currentTarget.value)}
-                  placeholder="Bio"
-                  required
-                  autosize
-                  minRows={3}
-                  maxRows={10}
-                />
-              </>
-            ) : (
-              <>
-                <Title c="white">{userData.username}</Title>
-                <Text c="gray" mb="0.5em">{userData.email}</Text>
-                <Badge color="teal" mb="0.5em">Member since [Date]</Badge>
-                <Text c="white">{userData.bio || "No bio available."}</Text>
-              </>
-            )}
+          {editing ? (
+  <>
+    <Input.Label>Username</Input.Label>
+    <Input
+      value={updatedUsername}
+      onChange={(e) => setUpdatedUsername(e.currentTarget.value)}
+      placeholder="Username"
+      required
+      style={{
+        marginBottom: '1em', // Space below the input
+        borderRadius: '8px', // Rounded corners for input
+        borderColor: '#ccc', // Subtle border color
+        backgroundColor: '#f8f8f8', // Light background for input
+      }}
+      radius="md" // Mantine default rounded corners
+      size="lg" // Larger input size for better readability
+      styles={{
+        input: {
+          padding: '0.75em', // Padding inside the input
+        },
+      }}
+    />
+    <Input.Label>Bio</Input.Label>
+    <Textarea
+      value={updatedBio}
+      onChange={(e) => setUpdatedBio(e.currentTarget.value)}
+      placeholder="Bio"
+      required
+      autosize
+      minRows={3}
+      maxRows={10}
+      style={{
+        marginBottom: '1em', 
+        borderRadius: '8px', 
+      }}
+      radius="md" 
+      size="lg" 
+      styles={{
+        input: {
+          padding: '0.75em', 
+        },
+      }}
+    />
+  </>
+) : (
+  <>
+    <Title c="white">{userData.username}</Title>
+    <Text c="gray" mb="0.5em">{userData.email}</Text>
+    <Badge color="teal" mb="0.5em">Member since [Date]</Badge>
+    <Text c="white">{userData.bio || "No bio available."}</Text>
+  </>
+)}
+
           </Flex>
         </Flex>
       </Container>
 
       {showButtons && (
-        <Container fluid mb="5em">
+        <Container fluid mb="2em">
           <Flex direction="row" justify="flex-end" mr="2em">
             {editing ? (
               <>

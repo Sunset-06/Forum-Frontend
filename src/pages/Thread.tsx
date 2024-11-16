@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Container, Title, Text, Flex, Button, Avatar, Divider, Loader } from "@mantine/core";
+import { Container, Title, Text, Textarea, Flex, Button, Avatar, Divider, Loader } from "@mantine/core";
+import { useAuth } from "../auth/AuthContext.tsx";
 import PostBox from "../components/PostBox.tsx";
 import { IconBookmark, IconBookmarkFilled, IconPlus, IconX } from "@tabler/icons-react";
-import AddPost from "../components/AddPost.tsx";
 import { getThreadById } from "../axios/threadApi.ts";
 import type { Thread } from "../axios/threadApi.ts"; 
-import { getAllPosts } from "../axios/postApi.ts";
+import { getAllPosts, createPost } from "../axios/postApi.ts";
 import type { Post } from "../axios/postApi.ts"; 
 
 const saveicon = <IconBookmark />;
@@ -16,12 +16,15 @@ const closeicon = <IconX />;
 
 const Thread: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { currentUser } = useAuth();
   const [saved, setSaved] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
   const [threadData, setThreadData] = useState<Thread | null>(null);
   const [postsData, setPostsData] = useState<Post[]>([]);
+  const [newContent, setNewContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [postError, setPostError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +45,33 @@ const Thread: React.FC = () => {
 
     fetchData();
   }, [id]);
-  
+
+  //for adding a new post
+  const handlePosting = async () => {
+    if (newContent.trim() === '') {
+      setPostError('Post content cannot be empty!');
+      return;
+    }
+
+    const newPost: Post = {
+      id: '',
+      authorId: currentUser.id,
+      authorName: currentUser.username, 
+      content: newContent,
+      pfpUrl: currentUser.pfpUrl, 
+    };
+
+    try {
+      await createPost(id!, newPost);
+      setPostsData((prev) => [...prev, newPost]); 
+      setNewContent('');
+      toggleAddPost(); 
+    } catch (err) {
+      console.error('Error creating post:', err);
+      setError('Failed to create post.');
+    }
+  };
+ 
   const handleSaving = () => setSaved(!saved);
   const toggleAddPost = () => setShowAddPost(!showAddPost);
 
@@ -131,9 +160,29 @@ const Thread: React.FC = () => {
 
         {showAddPost && (
           <Container fluid mt="1em" p="md">
-            <AddPost />
+            <Container fluid p="md" bg="black" m="3em" style={{borderRadius: "1em"}}>
+              <Title order={2} mb="md">
+                Create a Post
+              </Title>
+                <form>
+                  <Textarea
+                    placeholder="Write your post here..."
+                    value={newContent}
+                    onChange={(event) => setNewContent(event.currentTarget.value)}
+                    minRows={6}
+                    mb="md"
+                  />
+
+                  <Flex justify="flex-end">
+                    <Button variant="filled" color="teal" onClick={handlePosting}>
+                      Post
+                    </Button>
+                  </Flex>
+                  {postError && <Text c="red" mt="md">{postError}</Text>}
+                </form>
+              </Container>
           </Container>
-        )}
+            )}
       </Container>
 
       <Container fluid>
@@ -148,7 +197,7 @@ const Thread: React.FC = () => {
             />
           ))
         ) : (
-          <Text>No posts yet:( Add one to start a conversation!</Text>
+          <Text>No posts yet. Add one to start a conversation!</Text>
         )}
       </Container>
     </>

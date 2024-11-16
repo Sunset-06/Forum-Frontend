@@ -37,17 +37,21 @@ const mockdata = [
 export default function Sidebar() {
   const location = useLocation();
   const { currentUser, isSignedIn } = useAuth(); 
-  const [active, setActive] = useState(2);
-
+  const [active, setActive] = useState(2); 
   useEffect(() => {
     const currentPath = location.pathname;
     const activeIndex = mockdata.findIndex(link => link.to === currentPath);
     setActive(activeIndex);
-  }, [location]);
-
+    if (isSignedIn && currentUser) {
+      if (currentPath === `/profile/${currentUser.id}`) {
+        setActive(mockdata.length);
+      }
+    }
+  }, [location, isSignedIn, currentUser]);
   const profileLink = isSignedIn ? { icon: IconCat, label: 'Profile', to: `/profile/${currentUser.id}` } : null;
-  const links = [...mockdata, profileLink].map((link, index) => (
-    link && <NavbarLink
+  const links = profileLink ? [...mockdata, profileLink] : mockdata;
+  const renderedLinks = links.map((link, index) => (
+    <NavbarLink
       {...link}
       key={link.label}
       active={index === active}
@@ -59,7 +63,7 @@ export default function Sidebar() {
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
         <Stack justify="center" gap={0}>
-          {links}
+          {renderedLinks}
         </Stack>
       </div>
       <Stack justify="center" gap={0}>

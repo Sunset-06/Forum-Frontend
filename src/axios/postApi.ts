@@ -3,15 +3,10 @@ import axios, { AxiosInstance } from 'axios';
 export interface Post {
     id: string;
     content: string;
+    authorId: string
     authorName: string;
-    created: { seconds: number; nanos: number };
+    created?: { seconds: number; nanos: number };
     pfpUrl: string;
-}
-
-interface NewPost {
-    title: string;
-    content: string;
-    authorName: string;
 }
 
 interface UpdatePost {
@@ -28,10 +23,10 @@ const createPostApiInstance = (threadId: string): AxiosInstance => {
   });
 };
 
-export const createPost = async (threadId: string, postData: NewPost): Promise<Post> => {
+export const createPost = async (threadId: string, postData: Post): Promise<Post> => {
   const postApi = createPostApiInstance(threadId);
   try {
-    const response = await postApi.post<Post>('/', postData);
+    const response = await postApi.post<Post>('', postData);
     return response.data;
   } catch (error) {
     console.error('Error creating post:', error);
