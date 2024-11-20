@@ -11,10 +11,14 @@ import {
   Button,
 } from '@mantine/core';
 import { useState } from 'react';
-import register from '../auth/register';
+import { register } from '../auth/authFunctions.ts';
 import { createUser } from '../axios/userApi';
 import classes from './Auth.module.css';
-import initpfp from '../assets/fnnuy.jpg';
+import pfp_1 from '../assets/pfp-1.jpg';
+import pfp_2 from '../assets/pfp-2.jpg';
+import pfp_3 from '../assets/pfp-3.jpg';
+import pfp_4 from '../assets/pfp-4.png';
+import pfp_5 from '../assets/pfp-5.png'; 
 
 
 export default function Register() {
@@ -22,6 +26,7 @@ export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
+  const pfparray=[pfp_1,pfp_2,pfp_3,pfp_4,pfp_5];
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,10 +34,10 @@ export default function Register() {
       const userid= await register(email, password);
       const newUser={
         id: userid,
-        username:username,
-        email:email,
-        bio:"I just joined Forumeong!!",
-        pfp:initpfp
+        username: username,
+        email: email,
+        bio: "I just joined Forumeong!!",
+        pfp: pfparray[Math.floor(Math.random() * 5)]
       }
       createUser(newUser);
 

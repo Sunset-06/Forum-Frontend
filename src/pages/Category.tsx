@@ -55,13 +55,15 @@ export default function Category() {
       ) : (
         threads.map((thread) => (
           <ThreadBox
-            id={thread.id} 
+            id={thread.id}
+            authorId={thread.authorId} 
             authorName={thread.authorName}
-            timestamp={thread.created}
+            created={thread.created}
             pfpUrl={thread.pfpUrl || ''}
             title={thread.title}
             content={thread.content || ''}
             postCount={thread.postCount}
+            category={thread.category}
           />
         ))
       )}

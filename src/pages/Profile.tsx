@@ -7,13 +7,16 @@ import {
   Badge,
   Loader,
   Button,
+  TextInput,
+  Input,
   Textarea,
-  Input
+  Modal
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUserById, updateUser } from "../axios/userApi.ts";
 import type { User } from "../axios/userApi.ts";
+import { logout } from "../auth/authFunctions.ts";
 import { useAuth } from "../auth/AuthContext.tsx";
 
 export default function Profile() {
@@ -21,10 +24,11 @@ export default function Profile() {
   const [userData, setUserData] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  //editing states
   const [editing, setEditing] = useState(false);
-  const [updatedUsername, setUpdatedUsername] = useState('');
   const [updatedBio, setUpdatedBio] = useState('');
-  const [updatedPfp, setUpdatedPfp] = useState<File | null>(null);
+  const [updatedUsername, setUpdatedUsername] = useState('');
+  const [ConfirmationOpen, setConfirmationOpen] = useState(false);
 
   const { id } = useParams<{ id: string }>();
   const { currentUser } = useAuth();
@@ -39,8 +43,8 @@ export default function Profile() {
         if (currentUser?.id === id) {
           setShowButtons(true);
         }
-        setUpdatedUsername(fetchedUser.username);
         setUpdatedBio(fetchedUser.bio || '');
+        setUpdatedUsername(fetchedUser.username || '');
       } catch (err) {
         setError('Failed to load the profile.');
         console.error('Error fetching data:', err);
@@ -52,22 +56,15 @@ export default function Profile() {
     fetchData();
   }, [id, currentUser]);
 
-  const handleProfilePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.[0]) {
-      setUpdatedPfp(event.target.files[0]);
-    }
-  };
-
   const handleSave = async () => {
     try {
-      const updatedData = new FormData();
-      updatedData.append('username', updatedUsername);
-      updatedData.append('bio', updatedBio);
-      if (updatedPfp) {
-        updatedData.append('profilePicture', updatedPfp);
-      }
+      const updatedData = {
+        username: updatedUsername,
+        bio: updatedBio
+      };
 
       await updateUser(id!, updatedData);
+
       setEditing(false);
       setUserData((prevData) => {
         if (!prevData) return null;
@@ -75,7 +72,6 @@ export default function Profile() {
           ...prevData,
           username: updatedUsername,
           bio: updatedBio,
-          pfp: updatedPfp ? URL.createObjectURL(updatedPfp) : prevData.pfp,
         };
       });
     } catch (err) {
@@ -84,7 +80,25 @@ export default function Profile() {
     }
   };
 
-  if (loading) return <Flex align="center" justify="center" style={{width:'100vw'}}><Loader size="lg" /></Flex>;
+  const handleLogout = async() =>{
+    logout();
+  };
+
+  const handleConfirmEdit = () => {
+    setConfirmationOpen(false);
+    handleSave();
+  };
+
+  const handleCancelEdit = () => {
+    setConfirmationOpen(false);
+    setUpdatedUsername(currentUser.username)
+    setUpdatedBio(currentUser.bio) 
+    setEditing(false);
+  };
+
+  
+
+  if (loading) return <Flex align="center" justify="center" style={{ width: '100vw' }}><Loader size="lg" /></Flex>;
   if (error) return <Container><Text c="red">{error}</Text></Container>;
 
   if (!userData) {
@@ -99,82 +113,35 @@ export default function Profile() {
     <>
       <Container fluid bg="gray" m="4em" p="3em" style={{ borderRadius: "1em" }}>
         <Flex direction={{ base: 'column', sm: 'row' }} m="2em" gap="lg" align="center">
-          <div>
-            <label htmlFor="profile-picture-input">
-              <Image
-                m="1em"
-                h={275}
-                w={275}
-                src={updatedPfp ? URL.createObjectURL(updatedPfp) : userData.pfp}
-                alt={`${userData.username}'s profile`}
-                fit="cover"
-                style={{ cursor: 'pointer' }}
-              />
-            </label>
-            {showButtons && (
-              <input
-                id="profile-picture-input"
-                type="file"
-                accept="image/*"
-                onChange={handleProfilePictureChange}
-                style={{ display: 'none' }}
-              />
-            )}
-          </div>
+          <Image m="1em" h={275} w={275} src={userData.pfp} alt={`${userData.username}'s profile picture`} fit="cover" />
           <Flex direction="column" justify="center">
-          {editing ? (
-  <>
-    <Input.Label>Username</Input.Label>
-    <Input
-      value={updatedUsername}
-      onChange={(e) => setUpdatedUsername(e.currentTarget.value)}
-      placeholder="Username"
-      required
-      style={{
-        marginBottom: '1em', // Space below the input
-        borderRadius: '8px', // Rounded corners for input
-        borderColor: '#ccc', // Subtle border color
-        backgroundColor: '#f8f8f8', // Light background for input
-      }}
-      radius="md" // Mantine default rounded corners
-      size="lg" // Larger input size for better readability
-      styles={{
-        input: {
-          padding: '0.75em', // Padding inside the input
-        },
-      }}
-    />
-    <Input.Label>Bio</Input.Label>
-    <Textarea
-      value={updatedBio}
-      onChange={(e) => setUpdatedBio(e.currentTarget.value)}
-      placeholder="Bio"
-      required
-      autosize
-      minRows={3}
-      maxRows={10}
-      style={{
-        marginBottom: '1em', 
-        borderRadius: '8px', 
-      }}
-      radius="md" 
-      size="lg" 
-      styles={{
-        input: {
-          padding: '0.75em', 
-        },
-      }}
-    />
-  </>
-) : (
-  <>
-    <Title c="white">{userData.username}</Title>
-    <Text c="gray" mb="0.5em">{userData.email}</Text>
-    <Badge color="teal" mb="0.5em">Member since [Date]</Badge>
-    <Text c="white">{userData.bio || "No bio available."}</Text>
-  </>
-)}
-
+            {editing ? (
+              <>
+                <Input.Label>Username</Input.Label>
+                <TextInput
+                  value={updatedUsername}
+                  onChange={(e) => setUpdatedUsername(e.currentTarget.value)}
+                  placeholder="username"
+                  radius="md" 
+                  size="lg" 
+                />
+                <Input.Label>Bio</Input.Label>
+                <Textarea
+                  value={updatedBio}
+                  onChange={(e) => setUpdatedBio(e.currentTarget.value)}
+                  placeholder="bio"
+                  radius="md" 
+                  size="lg" 
+                />
+              </>
+            ) : (
+              <>
+                <Title c="white">{userData.username}</Title>
+                <Text c="gray" mb="0.5em">{userData.email}</Text>
+                <Badge color="teal" mb="0.5em">Member since [Date]</Badge>
+                <Text c="white">{userData.bio || "No bio available."}</Text>
+              </>
+            )}
           </Flex>
         </Flex>
       </Container>
@@ -187,7 +154,7 @@ export default function Profile() {
                 <Button variant="light" color="teal" mx="1em" onClick={() => setEditing(false)}>
                   Cancel
                 </Button>
-                <Button variant="filled" color="teal" onClick={handleSave}>
+                <Button variant="filled" color="teal" onClick={()=> setConfirmationOpen(true)}>
                   Save
                 </Button>
               </>
@@ -196,12 +163,30 @@ export default function Profile() {
                 Edit Profile
               </Button>
             )}
-            <Button variant="filled" color="teal" onClick={() => { /* TODO: Logout Logic */ }}>
+            <Button variant="filled" color="red" mx={4} onClick={() => handleLogout()}>
               Logout
             </Button>
           </Flex>
         </Container>
       )}
+      
+
+      
+      <Modal
+        opened={ConfirmationOpen}
+        onClose={() => setConfirmationOpen(false)}
+        title="Confirm Profile Changes"
+      >
+        <Text>Are you sure you want to save the changes to your profile?</Text>
+        <Flex justify="flex-end" gap="1em" mt="1.5em">
+          <Button variant="light" color="gray" onClick={handleCancelEdit}>
+            Cancel
+          </Button>
+          <Button variant="filled" color="teal" onClick={handleConfirmEdit}>
+            Confirm
+          </Button>
+        </Flex>
+      </Modal>
     </>
   );
 }

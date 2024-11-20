@@ -40,12 +40,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     "I test in production. This is production.",
     '"CATS, he said eventually. CATS ARE NICE."',
     '"Real stupidity beats artificial intelligence every time"',
-    "It's not your internet, it's the server."
+    "It's not your internet, it's my server."
   ];
 
   if (loading) {
     return(
-      <Flex align="center" justify="center" direction="column" style={{width:'100vw'}}>
+      <Flex align="center" justify="center" direction="column" style={{width:"100vw", height: "100vh"}}>
         <Loader size="lg" color='teal' mb="sm" />
         <Text>{loadingQuotes[Math.floor(Math.random() * loadingQuotes.length)]}</Text>
       </Flex>

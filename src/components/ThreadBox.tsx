@@ -1,15 +1,6 @@
 import { Avatar, Container, Divider, Flex, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
-
-interface ThreadAtts {
-  id: string;
-  authorName: string;
-  timestamp?: { seconds: number; nanos: number };
-  pfpUrl: string;
-  title: string;
-  content: string;
-  postCount: number;
-}
+import { Thread } from "../axios/threadApi";
 
 const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefined) => {
     var final = "date unknown";
@@ -26,29 +17,21 @@ const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefin
     return final;
 };
 
-const ThreadBox: React.FC<ThreadAtts> = ({
-  id,
-  authorName,
-  timestamp,
-  pfpUrl,
-  title,
-  content,
-  postCount,
-}) => {
-    const renderCount = postCount.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });    
+const ThreadBox: React.FC<Thread> = (thread:Thread) => {
+    const renderCount = thread.postCount.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });    
 
   return (
     <Container fluid bg="black" m="3em" p="1em" style={{borderRadius: "1em"}}>
         <Flex gap="xl" direction="row" align="center" justify="space-between">
-            <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href={`/profile/${authorName}`} src={pfpUrl} />
+            <Avatar color="pink" variant="light" radius="lg" size="xl" component="a" href={`/profile/${thread.authorId}`} src={thread.pfpUrl} />
             <Flex direction="column">
-                <Text variant="dimmed" component="a" href={`/profile/${authorName}`}>{authorName}</Text>
-                <Text variant="dimmed">{renderTimestamp(timestamp)}</Text>
+                <Text variant="dimmed" component="a" href={`/profile/${thread.authorId}`}>{thread.authorName}</Text>
+                <Text variant="dimmed">{renderTimestamp(thread.created)}</Text>
             </Flex>
   
             <Divider orientation="vertical" size="md" />
-            <Flex component={Link} to={`/thread/${id}`} state={{ authorName, timestamp, pfpUrl, title, content, postCount }} td="none"> 
-              <Title c="white">{title}</Title>
+            <Flex component={Link} to={`/thread/${thread.id}`}> 
+              <Title c="white">{thread.title}</Title>
             </Flex>
 
             <Flex direction="column" ml="auto">

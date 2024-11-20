@@ -97,7 +97,7 @@ const Thread: React.FC = () => {
   if (error) return <div>{error}</div>;
   if (!threadData) return <div>Thread not found.</div>;
 
-  const { authorName, created, pfpUrl, title, content, postCount } = threadData;
+  const { authorId, authorName, created, pfpUrl, title, content, postCount } = threadData;
 
 
   return (
@@ -117,10 +117,10 @@ const Thread: React.FC = () => {
             size="xl"
             src={pfpUrl}
             component={Link}
-            to={`/profile/${authorName}`}
+            to={`/profile/${authorId}`}
           />
           <Flex direction="column">
-            <Text variant="dimmed" component={Link} to={`/profile/${authorName}`}>{authorName}</Text>
+            <Text variant="dimmed" component={Link} to={`/profile/${authorId}`}>{authorName}</Text>
             <Text variant="dimmed">{renderTimestamp(created)}</Text>
           </Flex>
           <Divider orientation="vertical" size="md" />
@@ -189,9 +189,10 @@ const Thread: React.FC = () => {
         {postsData.length > 0 ? (
           postsData.map((post) => (
             <PostBox
-              key={post.id}
+              id={post.id}
+              authorId={post.authorId}
               authorName={post.authorName}
-              timestamp={post.created}
+              created={post.created}
               content={post.content}
               pfpUrl={post.pfpUrl}
             />

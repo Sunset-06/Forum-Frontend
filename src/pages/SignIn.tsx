@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import login from '../auth/signin';
+import { login } from '../auth/authFunctions';
 import classes from './Auth.module.css';
 
 export default function SignIn() {

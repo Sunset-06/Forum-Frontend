@@ -1,11 +1,5 @@
 import {Avatar, Container, Divider, Grid, Text} from "@mantine/core";
-
-interface PostAtts {
-  authorName: string;
-  timestamp?: { seconds: number; nanos: number };
-  content: string;
-  pfpUrl: string;
-}
+import { Post } from "../axios/postApi";
 
 const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefined) => {
   var final = "Just now";
@@ -23,25 +17,20 @@ const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefin
 };
 
 
-const PostBox: React.FC<PostAtts> = ({
-  authorName,
-  timestamp,
-  pfpUrl,
-  content,
-}) => {
+const PostBox: React.FC<Post> = (post:Post) => {
   return (
     <Container fluid mx="2em" mb="1em" bg="black" p="1em" style={{borderRadius: "1em"}}>
         <Grid align="center" justify="space-between">
             <Grid.Col span={1}>
-              <Avatar color="lime" variant="light" radius="lg"  src={pfpUrl} size="xl" component="a" href={`/profile/${authorName}`}/>
+              <Avatar color="lime" variant="light" radius="lg"  src={post.pfpUrl} size="xl" component="a" href={`/profile/${post.authorId}`}/>
             </Grid.Col>
             <Grid.Col span={1}>
-              <Text variant="dimmed" component="a" href={`/profile/${authorName}`}>{authorName}</Text>
-              <Text variant="dimmed">{renderTimestamp(timestamp)}</Text>
+              <Text variant="dimmed" component="a" href={`/profile/${post.authorId}`}>{post.authorName}</Text>
+              <Text variant="dimmed">{renderTimestamp(post.created)}</Text>
             </Grid.Col>
             <Divider orientation="vertical" size="md" />
             <Grid.Col span={9}>
-            <Text>{content}</Text>
+            <Text>{post.content}</Text>
             </Grid.Col>
         </Grid>
     </Container>

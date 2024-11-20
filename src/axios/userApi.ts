@@ -8,6 +8,10 @@ export interface User {
   pfp: string;
 }
 
+interface updatedUser{
+  username: string;
+  bio: string;
+}
 const userApi: AxiosInstance = axios.create({
   baseURL: '/api/users',
   headers: {
@@ -38,10 +42,10 @@ export const getUserById = async (id: string): Promise<User> => {
 export const getUserPfp = async (id: string): Promise<string> => {
   try {
     const response = await userApi.get<User>(`/${id}`);
-    return response.data.pfp ?? 'src/assets/def-pfp.png'; 
+    return response.data.pfp; 
   } catch (error) {
     console.error(`Error fetching profile picture for user with ID ${id}:`, error);
-    return 'src/assets/def-pfp.png'; 
+    throw error;
   }
 }
 
@@ -55,13 +59,9 @@ export const getAllUsers = async (): Promise<User[]> => {
   }
 };
 
-export const updateUser = async (id: string, userData: FormData): Promise<User> => {
+export const updateUser = async (id: string, userData: updatedUser): Promise<User> => {
   try {
-    const response = await axios.put<User>(`/api/users/${id}`, userData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await userApi.patch(`/${id}`, userData);
     return response.data;
   } catch (error) {
     console.error(`Error updating user with ID ${id}:`, error);
