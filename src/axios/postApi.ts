@@ -7,10 +7,10 @@ export interface Post {
     authorName: string;
     created?: { seconds: number; nanos: number };
     pfpUrl: string;
+    quoting?: string;
 }
 
 interface UpdatePost {
-    title?: string;
     content?: string;
 }
 
@@ -59,7 +59,7 @@ export const getAllPosts = async (threadId: string): Promise<Post[]> => {
 export const updatePost = async (threadId: string, id: string, postData: UpdatePost): Promise<Post> => {
   const postApi = createPostApiInstance(threadId);
   try {
-    const response = await postApi.put<Post>(`/${id}`, postData);
+    const response = await postApi.patch(`/${id}`, postData);
     return response.data;
   } catch (error) {
     console.error(`Error updating post with ID ${id}:`, error);

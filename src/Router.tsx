@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
 import Sidebar from './components/Sidebar.tsx';
-import Footer from './components/Footer.tsx';
+//import Footer from './components/Footer.tsx';
 import HomePage from './pages/Home.tsx';
 import SignIn from './pages/SignIn.tsx';
 import Register from './pages/Register.tsx';
@@ -38,7 +38,7 @@ const Router = () => {
           <Route path="/create" element={<AddThread />} />
         </Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 };

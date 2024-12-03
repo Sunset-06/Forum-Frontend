@@ -1,11 +1,9 @@
 .footer {
   position: fixed;
   bottom: 0;
-  width: calc(100% - rem(80px));
-  margin-left: rem(80px);
+  width: calc(100% - rem(90px));
   border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
   height: rem(56px);
-  z-index: 99;
   background-color: var(--mantine-color-body);
 }
 

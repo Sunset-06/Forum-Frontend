@@ -58,7 +58,7 @@ const Thread: React.FC = () => {
       authorId: currentUser.id,
       authorName: currentUser.username, 
       content: newContent,
-      pfpUrl: currentUser.pfpUrl, 
+      pfpUrl: currentUser.pfpUrl,
     };
 
     try {
@@ -74,6 +74,9 @@ const Thread: React.FC = () => {
  
   const handleSaving = () => setSaved(!saved);
   const toggleAddPost = () => setShowAddPost(!showAddPost);
+  const handleQuote = () =>{
+    
+  }
 
   const renderCount = (count: number) => count.toLocaleString('en-GB', { minimumIntegerDigits: 2, useGrouping: false });
 

@@ -28,28 +28,23 @@ function NavbarLink({ icon: Icon, label, to, active, onClick }: NavbarLinkProps)
   );
 }
 
-const mockdata = [
-  { icon: IconBread, label: 'Saved', to: '/saved' },
-  { icon: IconCategory2, label: 'Categories', to: '/cats' },
-  { icon: IconHome, label: 'Home', to: '/' },
-];
-
 export default function Sidebar() {
   const location = useLocation();
-  const { currentUser, isSignedIn } = useAuth(); 
-  const [active, setActive] = useState(2); 
+  const { currentUser, isSignedIn } = useAuth();
+  const [active, setActive] = useState(2);  
+  const links = [
+    isSignedIn && { icon: IconBread, label: 'Saved', to: '/saved' },
+    isSignedIn && { icon: IconCategory2, label: 'Categories', to: '/cats' },
+    { icon: IconHome, label: 'Home', to: '/' },
+    isSignedIn && currentUser && { icon: IconCat, label: 'Profile', to: `/profile/${currentUser.id}` },
+  ].filter(Boolean); 
+
   useEffect(() => {
     const currentPath = location.pathname;
-    const activeIndex = mockdata.findIndex(link => link.to === currentPath);
+    const activeIndex = links.findIndex(link => link.to === currentPath);
     setActive(activeIndex);
-    if (isSignedIn && currentUser) {
-      if (currentPath === `/profile/${currentUser.id}`) {
-        setActive(mockdata.length);
-      }
-    }
-  }, [location, isSignedIn, currentUser]);
-  const profileLink = isSignedIn ? { icon: IconCat, label: 'Profile', to: `/profile/${currentUser.id}` } : null;
-  const links = profileLink ? [...mockdata, profileLink] : mockdata;
+  }, [location, links]);
+
   const renderedLinks = links.map((link, index) => (
     <NavbarLink
       {...link}
@@ -66,9 +61,11 @@ export default function Sidebar() {
           {renderedLinks}
         </Stack>
       </div>
-      <Stack justify="center" gap={0}>
-        <NavbarLink icon={IconPlus} label="Create a Thread" to="/create" active={location.pathname === '/create'} />
-      </Stack>
+      {isSignedIn && (
+        <Stack justify="center" gap={0}>
+          <NavbarLink icon={IconPlus} label="Create a Thread" to="/create" active={location.pathname === '/create'} />
+        </Stack>
+      )}
     </nav>
   );
 }

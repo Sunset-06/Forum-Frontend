@@ -1,4 +1,5 @@
-import {Avatar, Container, Divider, Grid, Text} from "@mantine/core";
+import {Avatar, Button, Container, Divider, Flex, Grid, Text} from "@mantine/core";
+import { IconBlockquote } from "@tabler/icons-react";
 import { Post } from "../axios/postApi";
 
 const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefined) => {
@@ -14,6 +15,10 @@ const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefin
     final = istoday ? `Today, ${renderTime}` : `${renderDate}`;
   }
   return final;
+};
+
+const handleQuote = () => {
+  
 };
 
 
@@ -32,8 +37,11 @@ const PostBox: React.FC<Post> = (post:Post) => {
             <Grid.Col span={9}>
             <Text>{post.content}</Text>
             </Grid.Col>
+            <Button size={"xs"} variant="subtle" color="teal" bd="none" onClick={handleQuote}>
+              <IconBlockquote/>
+            </Button>
         </Grid>
-    </Container>
+    </Container> 
   );
 }
 

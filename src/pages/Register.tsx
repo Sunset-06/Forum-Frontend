@@ -45,15 +45,18 @@ export default function Register() {
       if (error.message.includes('auth/invalid-email')) {
         setError("Invalid email, please try again.");
       }
-      else if (error.message.includes('auth/email-already-in-use')) {
+      else if (error.message.includes('auth/email-already-exists')) {
         setError("Email already in use, please try again.");
+      }
+      else if (error.message.includes('auth/invalid-password')) {
+        setError("Password needs to be at least 6 characters long.");
       } 
       setError("Registration failed, try again later");
     }
   };  
 
   return (
-    <Container size={420} my={40}>
+    <Container size={420} my={100}>
       <Title ta="center" className={classes.title}>
         Register
       </Title>
