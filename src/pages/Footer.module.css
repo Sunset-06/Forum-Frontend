@@ -5,7 +5,6 @@
   border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
   height: rem(56px);
   background-color: var(--mantine-color-body);
-  z-index: 3;
 }
 
 .inner {
