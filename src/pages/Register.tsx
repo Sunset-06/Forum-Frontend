@@ -13,12 +13,13 @@ import {
 import { useState } from 'react';
 import { register } from '../auth/authFunctions.ts';
 import { createUser } from '../axios/userApi';
+import { useNavigate } from 'react-router-dom';
 import classes from './Auth.module.css';
-import pfp_1 from '../assets/pfp-1.jpg';
-import pfp_2 from '../assets/pfp-2.jpg';
-import pfp_3 from '../assets/pfp-3.jpg';
-import pfp_4 from '../assets/pfp-4.png';
-import pfp_5 from '../assets/pfp-5.png'; 
+import pfp_1 from '../assets/pfp-1.jpg'
+import pfp_2 from '../assets/pfp-2.jpg'
+import pfp_3 from '../assets/pfp-3.jpg'
+import pfp_4 from '../assets/pfp-4.png'
+import pfp_5 from '../assets/pfp-5.png' 
 
 
 export default function Register() {
@@ -27,6 +28,9 @@ export default function Register() {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
   const pfparray=[pfp_1,pfp_2,pfp_3,pfp_4,pfp_5];
+  const navigate = useNavigate();
+
+  console.log('Imported Profile Pictures:', pfparray);
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,6 +44,7 @@ export default function Register() {
         pfp: pfparray[Math.floor(Math.random() * 5)]
       }
       createUser(newUser);
+      navigate("/");
 
     } catch (error: any) {
       if (error.message.includes('auth/invalid-email')) {
@@ -48,7 +53,7 @@ export default function Register() {
       else if (error.message.includes('auth/email-already-exists')) {
         setError("Email already in use, please try again.");
       }
-      else if (error.message.includes('auth/invalid-password')) {
+      else if (error.message.includes('auth/weak-password')) {
         setError("Password needs to be at least 6 characters long.");
       } 
       setError("Registration failed, try again later");

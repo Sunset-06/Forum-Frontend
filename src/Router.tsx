@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { useMediaQuery } from '@mantine/hooks';
 import Navbar from './components/Navbar.tsx';
 import Sidebar from './components/Sidebar.tsx';
-//import Footer from './components/Footer.tsx';
 import HomePage from './pages/Home.tsx';
 import SignIn from './pages/SignIn.tsx';
 import Register from './pages/Register.tsx';
@@ -12,10 +12,12 @@ import CategoryPage from './pages/Category.tsx';
 import Thread from './pages/Thread.tsx';
 import AddThread from './pages/AddThread.tsx'
 
+const isLargeScreen = useMediaQuery('(min-width: 768px)');
+
 const Layout = () => (
   <div style={{ display: 'flex' }}>
     <Sidebar />
-    <div style={{ flexGrow: 1, marginLeft: "80px", marginTop: "56px" }}>
+    <div style={{ flexGrow: 1, marginTop: "56px", marginLeft: isLargeScreen? '80px':'0' }}>
       <Outlet />
     </div>
   </div>

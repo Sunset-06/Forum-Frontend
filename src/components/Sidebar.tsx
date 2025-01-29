@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Tooltip, Stack, rem } from '@mantine/core';
+import { Tooltip, Flex, rem } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   IconHome,
@@ -31,12 +32,15 @@ function NavbarLink({ icon: Icon, label, to, active, onClick }: NavbarLinkProps)
 export default function Sidebar() {
   const location = useLocation();
   const { currentUser, isSignedIn } = useAuth();
-  const [active, setActive] = useState(2);  
+  const [active, setActive] = useState(2);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+    
   const links = [
     isSignedIn && { icon: IconBread, label: 'Saved', to: '/saved' },
     isSignedIn && { icon: IconCategory2, label: 'Categories', to: '/cats' },
     { icon: IconHome, label: 'Home', to: '/' },
     isSignedIn && currentUser && { icon: IconCat, label: 'Profile', to: `/profile/${currentUser.id}` },
+    isMobile && isSignedIn && { icon: IconPlus, label: 'Create a Thread', to: '/create' }, 
   ].filter(Boolean); 
 
   useEffect(() => {
@@ -57,14 +61,14 @@ export default function Sidebar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Stack justify="center" gap={0}>
+        <Flex justify="center" gap={0} direction={isMobile ? 'row' : 'column'}>
           {renderedLinks}
-        </Stack>
+        </Flex>
       </div>
       {isSignedIn && (
-        <Stack justify="center" gap={0}>
+        <Flex justify="center" gap={0}>
           <NavbarLink icon={IconPlus} label="Create a Thread" to="/create" active={location.pathname === '/create'} />
-        </Stack>
+        </Flex>
       )}
     </nav>
   );

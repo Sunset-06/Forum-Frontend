@@ -23,4 +23,32 @@
     left: 50%;
     transform: translate(-50%, -50%); 
 }
-  
+
+.title{
+  margin-left: 6rem;
+  margin-top: 1em;
+}
+
+@media (max-width: 768px) {
+  .card {
+    height: 150px;
+  }
+
+  .categorytitle {
+    font-size: 0.5em;
+  }
+  .title{
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    height: 250px;
+    width: 120px;
+  }
+
+  .categorytitle {
+    font-size: 0.9rem;
+  }
+}

@@ -1,5 +1,5 @@
 import { Flex, Card, Overlay } from '@mantine/core';
-import classes from "./Animations.module.css"
+import classes from "./Categories.module.css"
 import catvg from "../assets/cats-games.jpg"
 import catfs from "../assets/cats-fashion.jpg"
 import catbk from "../assets/cats-books.jpg"
@@ -46,7 +46,7 @@ const cards = cats.map((cat) => (
 export default function Categories() {
     return (
         <div style={{ marginBottom: "3em" }}>
-            <h1 style={{ marginLeft: "6rem", marginTop: "6rem" }}>Popular Categories</h1>
+            <h1 className={classes.title}>Popular Categories</h1>
             <Flex gap={"xl"} justify={"center"} direction={"row"} wrap={"wrap"}>
                 {cards}
             </Flex>
