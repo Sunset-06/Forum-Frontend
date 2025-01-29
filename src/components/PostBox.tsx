@@ -1,4 +1,4 @@
-import {Avatar, Button, Container, Divider, Flex, Grid, Text} from "@mantine/core";
+import {Avatar, Container, Divider, Grid, Text} from "@mantine/core";
 import { Post } from "../axios/postApi";
 
 const renderTimestamp = (timestamp: { seconds: number; nanos: number } | undefined) => {

@@ -12,16 +12,17 @@ import CategoryPage from './pages/Category.tsx';
 import Thread from './pages/Thread.tsx';
 import AddThread from './pages/AddThread.tsx'
 
-const isLargeScreen = useMediaQuery('(min-width: 768px)');
-
-const Layout = () => (
-  <div style={{ display: 'flex' }}>
-    <Sidebar />
-    <div style={{ flexGrow: 1, marginTop: "56px", marginLeft: isLargeScreen? '80px':'0' }}>
-      <Outlet />
+const Layout = () =>{
+  const isLargeScreen = useMediaQuery('(min-width: 768px)');
+  return(
+    <div style={{ display: 'flex' }}>
+      <Sidebar />
+      <div style={{ flexGrow: 1, marginTop: "56px", marginLeft: isLargeScreen? '80px':'0' }}>
+        <Outlet />
+      </div>
     </div>
-  </div>
-);
+  );
+} 
 
 const Router = () => {
   return (
