@@ -7,7 +7,6 @@ export interface Post {
     authorName: string;
     created?: { seconds: number; nanos: number };
     pfpUrl: string;
-    quoting?: string;
 }
 
 interface UpdatePost {

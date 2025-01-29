@@ -38,8 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     "Page is loading! (I hope.)",
     "The cat images make this slow.",
     "I test in production. This is production.",
-    '"CATS, he said eventually. CATS ARE NICE."',
-    '"Real stupidity beats artificial intelligence every time"',
+    '"Give it a bit of time"',
     "It's not your internet, it's my server."
   ];
 
