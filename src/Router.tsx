@@ -10,7 +10,9 @@ import Categories from './pages/Categories.tsx';
 import Saved from './pages/Saved.tsx';
 import CategoryPage from './pages/Category.tsx';
 import Thread from './pages/Thread.tsx';
-import AddThread from './pages/AddThread.tsx'
+import AddThread from './pages/AddThread.tsx';
+//=======================================
+import TestPage from './pages/TestPage.tsx'
 
 const Layout = () =>{
   const isLargeScreen = useMediaQuery('(min-width: 768px)');
@@ -39,6 +41,7 @@ const Router = () => {
           <Route path="/cats/*" element={<CategoryPage />} />
           <Route path="/thread/:id" element={<Thread />} />
           <Route path="/create" element={<AddThread />} />
+          <Route path="/supersecret" element={<TestPage />} />
         </Route>
       </Routes>
       {/* <Footer /> */}

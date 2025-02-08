@@ -1,6 +1,6 @@
 import { Button, Autocomplete, Group, Text, rem, Avatar } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import { useAuth } from '../auth/AuthContext';  // Import useAuth hook
+import { useAuth } from '../auth/AuthContext';  
 import classes from './Navbar.module.css';
 import { Link } from 'react-router-dom';
 
@@ -17,8 +17,8 @@ export default function Navbar() {
             className={classes.search}
             placeholder="Search"
             leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-            data={['Roland Cattos', 'Whiskas', 'Owners', 'Territory Updates', 'Fish Market', 'Metal Gear Solid 2: Paws of Liberty']}
-            visibleFrom="xs"
+            data={['Roland Cattos', 'Whiskas', 'Owners', 'Territory Updates', 'Fish Market']}
+            visibleFrom="sm"
           />
           
           {isSignedIn ? (
