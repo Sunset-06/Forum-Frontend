@@ -19,7 +19,7 @@ const Layout = () =>{
   return(
     <div style={{ display: 'flex' }}>
       <Sidebar />
-      <div style={{ flexGrow: 1, marginTop: "56px", marginLeft: isLargeScreen? '80px':'0' }}>
+      <div style={{ flexGrow: 1, marginTop: "56px", marginLeft: isLargeScreen? '80px':'0', marginBottom: isLargeScreen? '0':'80px' }}>
         <Outlet />
       </div>
     </div>
