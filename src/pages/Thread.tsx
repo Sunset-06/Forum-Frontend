@@ -20,8 +20,8 @@ const Thread: React.FC = () => {
   const { currentUser } = useAuth();
   const [saved, setSaved] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
-  const [threadData, setThreadData] = useState<Thread | null>(propThreadData || null);
-  const [postsData, setPostsData] = useState<Post[]>(propPostsData || []);
+  const [threadData, setThreadData] = useState<Thread | null>(null);
+  const [postsData, setPostsData] = useState<Post[]>([]);
   const [newContent, setNewContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
