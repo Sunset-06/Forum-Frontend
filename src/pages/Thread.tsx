@@ -7,7 +7,8 @@ import { IconBookmark, IconBookmarkFilled, IconPlus, IconX } from "@tabler/icons
 import { getThreadById } from "../axios/threadApi.ts";
 import type { Thread } from "../axios/threadApi.ts"; 
 import { getAllPosts, createPost } from "../axios/postApi.ts";
-import type { Post } from "../axios/postApi.ts"; 
+import type { Post } from "../axios/postApi.ts";
+import { useMediaQuery } from "@mantine/hooks"; 
 
 const saveicon = <IconBookmark />;
 const savedicon = <IconBookmarkFilled />;
@@ -19,12 +20,13 @@ const Thread: React.FC = () => {
   const { currentUser } = useAuth();
   const [saved, setSaved] = useState(false);
   const [showAddPost, setShowAddPost] = useState(false);
-  const [threadData, setThreadData] = useState<Thread | null>(null);
-  const [postsData, setPostsData] = useState<Post[]>([]);
+  const [threadData, setThreadData] = useState<Thread | null>(propThreadData || null);
+  const [postsData, setPostsData] = useState<Post[]>(propPostsData || []);
   const [newContent, setNewContent] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [postError, setPostError] = useState<string | null>(null);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,42 +104,38 @@ const Thread: React.FC = () => {
 
   return (
     <>
-      <Container
-        fluid
-        mx="3em"
-        mb="1em"
-        mt="2em"
-        style={{ backgroundColor: "black", borderRadius: "1em", padding: "1em" }}
-      >
-        <Flex gap="xl" direction="row" align="center" justify="space-between" mb="1rem">
-          <Avatar
-            color="pink"
-            variant="light"
-            radius="lg"
-            size="xl"
-            src={pfpUrl}
-            component={Link}
-            to={`/profile/${authorId}`}
-          />
-          <Flex direction="column">
-            <Text variant="dimmed" component={Link} to={`/profile/${authorId}`}>{authorName}</Text>
-            <Text variant="dimmed">{renderTimestamp(created)}</Text>
+      <Container fluid mx={isMobile ? "1em" : "3em"} mb="1em" mt="2em" style={{ backgroundColor: "black", borderRadius: "1em", padding: "1em" }}>
+        <Flex gap="xl" direction={isMobile ? "column" : "row"} align={isMobile ? "flex-start" : "center"} justify="space-between" mb="1rem">
+          <Flex direction="row">
+            <Avatar
+              color="pink"
+              variant="light"
+              radius="lg"
+              size={isMobile ? "lg" : "xl"}
+              src={pfpUrl}
+              component={Link}
+              to={`/profile/${authorId}`}
+            />
+            <Flex direction="column" ml="30px" justify="center">
+              <Text variant="dimmed" component={Link} size={isMobile ? "sm" : "md"} to={`/profile/${authorId}`}>{authorName}</Text>
+              <Text variant="dimmed" size={isMobile ? "xs" : "sm"}>{renderTimestamp(created)}</Text>
+            </Flex>
           </Flex>
-          <Divider orientation="vertical" size="md" />
+          {!isMobile && <Divider orientation="vertical" size="md" />}
           <Title c="white">{title}</Title>
-          <Flex direction="column" ml="auto">
-            <Title>{renderCount(postCount)}</Title>
-            <Text>posts</Text>
+          <Flex direction="column" ml={isMobile ? "" : "auto"}>
+            <Title size={isMobile ? "20px" : "30px"}>{renderCount(postCount)}</Title>
+            <Text size={isMobile ? "sm" : "md"}>posts</Text>
           </Flex>
         </Flex>
 
         <Flex direction="column" mt="3rem">
-          <Text size="lg">{content}</Text>
+          <Text size={isMobile ? "md" : "lg"}>{content}</Text>
         </Flex>
       </Container>
 
       <Container fluid mb="5em">
-        <Flex direction="row" justify="flex-end" mr="2em">
+        <Flex direction="row" justify={isMobile ? "center" : "flex-end"} mr={isMobile ? "0px" : "2em"}>
           <Button
             variant="light"
             color="teal"
