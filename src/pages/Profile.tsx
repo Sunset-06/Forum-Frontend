@@ -9,8 +9,7 @@ import {
   Button,
   TextInput,
   Input,
-  Textarea,
-  Modal
+  Textarea
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -29,7 +28,6 @@ export default function Profile() {
   const [editing, setEditing] = useState(false);
   const [updatedBio, setUpdatedBio] = useState('');
   const [updatedUsername, setUpdatedUsername] = useState('');
-  const [ConfirmationOpen, setConfirmationOpen] = useState(false);
 
   const { id } = useParams<{ id: string }>();
   const { currentUser } = useAuth();
@@ -87,19 +85,6 @@ export default function Profile() {
   const handleLogout = async() =>{
     logout();
   };
-
-  const handleConfirmEdit = () => {
-    setConfirmationOpen(false);
-    handleSave();
-  };
-
-  const handleCancelEdit = () => {
-    setConfirmationOpen(false);
-    setUpdatedUsername(currentUser.username)
-    setUpdatedBio(currentUser.bio) 
-    setEditing(false);
-  };
-
   
 
   if (loading) return <Flex align="center" justify="center" style={{ width: '100vw' }}><Loader size="lg" /></Flex>;
@@ -158,7 +143,7 @@ export default function Profile() {
                 <Button variant="light" color="teal" mx="1em" onClick={() => setEditing(false)}>
                   Cancel
                 </Button>
-                <Button variant="filled" color="teal" onClick={()=> setConfirmationOpen(true)}>
+                <Button variant="filled" color="teal" onClick={()=> handleSave()}>
                   Save
                 </Button>
               </>
@@ -173,24 +158,6 @@ export default function Profile() {
           </Flex>
         </Container>
       )}
-      
-
-      
-      <Modal
-        opened={ConfirmationOpen}
-        onClose={() => setConfirmationOpen(false)}
-        title="Confirm Profile Changes"
-      >
-        <Text>Are you sure you want to save the changes to your profile?</Text>
-        <Flex justify="flex-end" gap="1em" mt="1.5em">
-          <Button variant="light" color="gray" onClick={handleCancelEdit}>
-            Cancel
-          </Button>
-          <Button variant="filled" color="teal" onClick={handleConfirmEdit}>
-            Confirm
-          </Button>
-        </Flex>
-      </Modal>
     </>
   );
 }
