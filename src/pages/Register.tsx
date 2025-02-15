@@ -15,11 +15,6 @@ import { register } from '../auth/authFunctions.ts';
 import { createUser } from '../axios/userApi';
 import { useNavigate } from 'react-router-dom';
 import classes from './Auth.module.css';
-import pfp_1 from '../assets/pfp-1.jpg'
-import pfp_2 from '../assets/pfp-2.jpg'
-import pfp_3 from '../assets/pfp-3.jpg'
-import pfp_4 from '../assets/pfp-4.png'
-import pfp_5 from '../assets/pfp-5.png' 
 
 
 export default function Register() {
@@ -27,10 +22,14 @@ export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
-  const pfparray=[pfp_1,pfp_2,pfp_3,pfp_4,pfp_5];
+  const pfparray = [
+    "/images/pfp-1.jpg",
+    "/images/pfp-2.jpg",
+    "/images/pfp-3.jpg",
+    "/images/pfp-4.png",
+    "/images/pfp-5.png"
+  ];
   const navigate = useNavigate();
-
-  console.log('Imported Profile Pictures:', pfparray);
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,8 +40,10 @@ export default function Register() {
         username: username,
         email: email,
         bio: "I just joined Forumeong!!",
-        pfp: pfparray[Math.floor(Math.random() * 5)]
+        pfpUrl: pfparray[Math.floor(Math.random() * 5)]
       }
+      console.log("Pfp assigned:", newUser.pfpUrl);
+      
       createUser(newUser);
       navigate("/");
 

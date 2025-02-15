@@ -23,7 +23,7 @@ export default function Navbar() {
           
           {isSignedIn ? (
             <Avatar
-              src={currentUser.pfp}
+              src={currentUser.pfpUrl}
               component="a"
               href={`/profile/${currentUser.id}`}
               radius="md"

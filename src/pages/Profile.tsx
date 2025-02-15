@@ -18,6 +18,7 @@ import { getUserById, updateUser } from "../axios/userApi.ts";
 import type { User } from "../axios/userApi.ts";
 import { logout } from "../auth/authFunctions.ts";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { useMediaQuery } from "@mantine/hooks";
 
 export default function Profile() {
   const [showButtons, setShowButtons] = useState(false);
@@ -32,12 +33,15 @@ export default function Profile() {
 
   const { id } = useParams<{ id: string }>();
   const { currentUser } = useAuth();
-
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  console.log("This is logging??");
+  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const fetchedUser = await getUserById(id!);
+        console.log(fetchedUser.pfpUrl);
         setUserData(fetchedUser);
 
         if (currentUser?.id === id) {
@@ -111,9 +115,9 @@ export default function Profile() {
 
   return (
     <>
-      <Container fluid bg="gray" m="4em" p="3em" style={{ borderRadius: "1em" }}>
-        <Flex direction={{ base: 'column', sm: 'row' }} m="2em" gap="lg" align="center">
-          <Image m="1em" h={275} w={275} src={userData.pfp} alt={`${userData.username}'s profile picture`} fit="cover" />
+      <Container fluid bg="gray" m={isMobile ? '2em' : '4em'} p={isMobile ? '2em' : '3em'} style={{ borderRadius: "1em" }}>
+        <Flex direction={isMobile ? 'column' : 'row'} m="2em" gap="lg" align="center">
+          <Image m="1em" h={isMobile ? 120 : 275} w={isMobile ? 120 : 275} src={userData.pfpUrl} alt={`${userData.username}'s profile picture`} fit="cover" radius={"1em"} />
           <Flex direction="column" justify="center">
             {editing ? (
               <>
@@ -136,7 +140,7 @@ export default function Profile() {
               </>
             ) : (
               <>
-                <Title c="white">{userData.username}</Title>
+                <Title c="white" order={isMobile ? 5 : 1}>{userData.username}</Title>
                 <Text c="gray" mb="0.5em">{userData.email}</Text>
                 <Badge color="teal" mb="0.5em">Member since [Date]</Badge>
                 <Text c="white">{userData.bio || "No bio available."}</Text>
@@ -147,8 +151,8 @@ export default function Profile() {
       </Container>
 
       {showButtons && (
-        <Container fluid mb="2em">
-          <Flex direction="row" justify="flex-end" mr="2em">
+        <Container fluid>
+          <Flex direction="row" justify={isMobile ? 'center' : 'flex-end'} mr={isMobile ? 'auto' : '3em'}>
             {editing ? (
               <>
                 <Button variant="light" color="teal" mx="1em" onClick={() => setEditing(false)}>

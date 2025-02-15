@@ -41,7 +41,7 @@ export default function NewThreadForm() {
       content,
       authorId: currentUser.id,
       authorName: currentUser.username,
-      pfpUrl: currentUser.pfp,
+      pfpUrl: currentUser.pfpUrl,
       postCount: 0,
       category,
     };

@@ -20,18 +20,9 @@ export default function Category() {
     const fetchData = async () => {
       try {
         const fetchedThreads = await getAllThreads();
-        //------------------log-----------------------//
-          console.log("fetched:::::",fetchedThreads);
-        //--------------------------------------------//
-
         const categoryThreads = fetchedThreads.filter((thread) => {
             return thread.category === categoryName.toLowerCase();
           });
-
-          //------------------log-----------------------//
-          console.log("cat:::::",categoryThreads);
-        //--------------------------------------------//
-        
         setThreads(categoryThreads);
       } catch (error) {
         setError('Failed to load threads. Please try again later.');

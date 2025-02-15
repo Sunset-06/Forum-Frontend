@@ -16,8 +16,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (user) {
         try {
           const profile = await getUserById(user.uid);
-          const pfp = await getUserPfp(user.uid);
-          setCurrentUser({ ...profile, pfp });
+          const pfpUrl = await getUserPfp(user.uid);
+          setCurrentUser({ ...profile, pfpUrl });
           setIsSignedIn(true);
         } catch (error) {
           console.error('Error fetching profile:', error);
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     "Page is loading! (I hope.)",
     "The cat images make this slow.",
     "I test in production. This is production.",
-    '"Give it a bit of time"',
+    "Give it a bit of time",
     "It's not your internet, it's my server."
   ];
 

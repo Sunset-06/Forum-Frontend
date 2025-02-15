@@ -5,7 +5,7 @@ export interface User {
   username: string;
   email: string;
   bio: string;
-  pfp: string;
+  pfpUrl: string;
 }
 
 interface updatedUser{
@@ -42,7 +42,8 @@ export const getUserById = async (id: string): Promise<User> => {
 export const getUserPfp = async (id: string): Promise<string> => {
   try {
     const response = await userApi.get<User>(`/${id}`);
-    return response.data.pfp; 
+    return response.data.pfpUrl;
+     
   } catch (error) {
     console.error(`Error fetching profile picture for user with ID ${id}:`, error);
     throw error;
